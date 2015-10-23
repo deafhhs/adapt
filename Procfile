@@ -1,0 +1,1 @@
+web: gunicorn adapt.wsgi --log-file -

@@ -4,3 +4,6 @@ help:
 
 requirements.txt :
 	pip freeze > requirements.txt
+
+serve :
+	heroku local
