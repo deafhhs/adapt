@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.timezone import now
 from import_export import resources
+from django.contrib.auth.models import User
 import localflavor.us.models as lfmodels
 
 GENDER_CHOICES = [
@@ -118,6 +119,18 @@ class ClientResource(resources.ModelResource):
         model = Client
         exclude = ('id',)
 
+
+class MeetingLog(models.Model):
+    client = models.ForeignKey(Client)
+
+    contact_date = models.DateField()
+
+    consultation_time = models.PositiveIntegerField(default=15)
+    paperwork_time = models.PositiveIntegerField(default=15)
+
+    results = models.TextField(blank=True)
+
+    user = models.ForeignKey(User)
 
 class Provider(models.Model):
     name = models.CharField(max_length=32)
