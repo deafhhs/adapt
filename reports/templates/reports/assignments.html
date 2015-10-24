@@ -1,0 +1,59 @@
+{% extends "reports/report.html" %}
+
+{% block report %}
+<style scoped>
+table {
+    border-collapse: collapse;
+}
+tr {
+    border: thin solid black;
+}
+th, td {
+    padding: 0.2em;
+}
+tbody th {
+    text-align: left;
+}
+tr.odd {
+    background: silver;
+}
+</style>
+<table>
+    <caption><h2>
+    {% if month and year %}
+        {{ month }}, {{ year }}
+    {% elif year %}
+        {{ year }}
+    {% else %}
+        All Time
+    {% endif %}
+    </h2></caption>
+    <thead>
+        <tr>
+            <th>Client</th>
+            <th>Aud. Appt. Date</th>
+            <th>Audient ID</th>
+            <th>Aud. Invoice $</th>
+            <th>Audiologist</th>
+            <th>Provider</th>
+            <th colspan=2>Prov. Auth. Dates</th>
+            <th>Aud. Invoice Date</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for client in clients %}
+    <tr class="{% cycle 'odd' 'even' %}">
+        <th>{{ client }}</th>
+        <td>{{ client.audiologist_appointment_date }}</td>
+        <td>{{ client.audient_id }}</td>
+        <td>{{ client.audiologist_invoiced_amount }}</td>
+        <td>{{ client.audiologist }}</td>
+        <td>{{ client.provider }}</td>
+        <td>{{ client.provider_auth_sent }}</td>
+        <td>{{ client.provider_auth_recv }}</td>
+        <td>{{ client.audiologist_invoiced_date }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -89,3 +89,32 @@ class AudiologistReport(Report, name='Audiologist List', template='audiologist.h
             'month': calendar.month_name[month],
             'auds': data
         }
+
+
+class AssignmentReport(Report, name='Audiologist Assignments List', template='assignments.html'):
+    year = forms.IntegerField(label='Year', min_value=2000, max_value=2050, required=False)
+    month = forms.IntegerField(label='Month', min_value=1, max_value=12, required=False)
+
+    def clean(self):
+        data = super().clean()
+        if data.get('month'):
+            if not data.get('year'):
+                raise ValidationError("If month is given, year must also be given")
+        return data
+
+    def report(self):
+        today = datetime.date.today()
+        year = self.get_field('year')
+        month = self.get_field('month')
+
+        clients = Client.objects.order_by('-audiologist_referral_date').exclude(audiologist__isnull=True)
+        if year:
+            clients = clients.filter(audiologist_referral_date__year=year)
+            if month:
+                clients = clients.filter(audiologist_referral_date__month=month)
+
+        return {
+            'year': year,
+            'month': calendar.month_name[month] if month else None,
+            'clients': clients,
+        }
