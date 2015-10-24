@@ -119,3 +119,11 @@ class AssignmentReport(Report, name='Audiologist Assignments List', template='as
             'clients': clients,
             'invoice_sum': sum(c.audiologist_invoiced_amount or 0 for c in clients),
         }
+
+class AssignmentReport(Report, name='Waiting List', template='waitlist.html'):
+    def report(self):
+        clients = Client.objects.filter(audiologist__isnull=True).order_by('intake_date')
+
+        return {
+            'clients': clients
+        }

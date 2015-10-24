@@ -1,0 +1,52 @@
+{% extends "reports/report.html" %}
+
+{% block report %}
+<style scoped>
+table {
+    border-collapse: collapse;
+}
+tr {
+    border: thin solid black;
+}
+th, td {
+    padding: 0.2em;
+}
+tbody th {
+    text-align: left;
+}
+tr.odd {
+    background: silver;
+}
+</style>
+<table>
+    <caption><h2>
+    {% if month and year %}
+        {{ month }}, {{ year }}
+    {% elif year %}
+        {{ year }}
+    {% else %}
+        All Time
+    {% endif %}
+    </h2></caption>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Intake Date</th>
+            <th>Loss</th>
+            <th>Provider</th>
+            <th>Cost Share</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for client in clients %}
+    <tr class="{% cycle 'odd' 'even' %}">
+        <th>{{ client }}</th>
+        <td>{{ client.intake_date }}</td>
+        <td>{{ client.hearing_loss }}</td>
+        <td>{{ client.provider }}</td>
+        <td>{{ client.cost_share }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}
