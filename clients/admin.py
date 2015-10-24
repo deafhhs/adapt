@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
+from django.db.models.fields import CharField, TextField
 from import_export.admin import ImportExportModelAdmin
 
 
@@ -69,6 +70,12 @@ class AudiologistAdmin(DeleteNotAllowedModelAdmin, ImportExportModelAdmin):
 
 class ClientAdmin(ImportExportModelAdmin):
     resource_class = ClientResource
+    list_display = ('first_name', 'last_name', 'intake_date', 'hearing_loss', 'audiologist')  # TODO: cost share
+    list_display_links = ('first_name', 'last_name',)
+    list_filter = ('intake_date', 'provider', 'audiologist')  # TODO: better date filter, copy from Thrive
+    ordering = ('-intake_date',)
+    date_hierarchy = 'intake_date'
+    search_fields = [f.name for f in Client._meta.local_fields if isinstance(f, (CharField, TextField))]
 
 
 class ProviderAdmin(ImportExportModelAdmin):

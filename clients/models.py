@@ -94,6 +94,9 @@ class Client(models.Model):
     audiologist_referral_date = models.DateField(null=True, blank=True)
     audiologist_appointment_date = models.DateField(null=True, blank=True)
 
+    def __str__(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
 
 class ClientResource(resources.ModelResource):
     class Meta:
