@@ -24,12 +24,25 @@ install: clean migrate load_fixtures
 dev_requirements:
 	pip install -r dev_requirements.txt
 
+.PHONY: test
+test:
+	python manage.py test
+
 .PHONY: serve
-serve :
+serve:
 	heroku local
+
+.PHONY: check_production_security
+check_production_security:
+	python manage.py check_production_security http://adapt.herokuapp.com
+
+.PHONY: check_production_security_dev
+check_production_security_dev:
+	python manage.py check_production_security http://localhost:5000
 
 .PHONY: heroku_deploy
 heroku_deploy:
 	git push heroku master
 	heroku run make migrate
 	heroku run make load_fixtures
+	heroku run make check_production_security
