@@ -53,7 +53,7 @@ import datetime
 from clients.models import Client, Audiologist
 
 class AudiologistReport(Report, name='Audiologist List', template='audiologist.html'):
-    year = forms.IntegerField(label='Year', min_value=2000, required=False)
+    year = forms.IntegerField(label='Year', min_value=2000, max_value=2050, required=False)
     month = forms.IntegerField(label='Month', min_value=1, max_value=12, required=False)
 
     def clean(self):

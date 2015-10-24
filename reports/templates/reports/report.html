@@ -1,1 +1,18 @@
-{{ data }}
+<style>
+@media print {
+    #knobs {
+        display: none;
+    }
+}
+</style>
+<h1>{{ report.name }}</h1>
+
+<div id="knobs">
+    <form method="get">
+        {{ report.as_ul }}
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+
+{% block content %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "reports/report.html" %}
+
+{% block content %}
+<ul>
+{% for audiologist, clients in auds %}
+	<li>{{ audiologist.name }}:
+	{% for client in clients %}{{ client.first_name }} {{ client.last_name }}, {% endfor %}
+	</li>
+{% endfor %}
+</ul>
+{% endblock %}
