@@ -4,3 +4,4 @@ Django==1.8.5
 gunicorn
 dj-database-url
 dj-static
+django-localflavor
