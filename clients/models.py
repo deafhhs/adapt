@@ -11,7 +11,19 @@ RACE_CHOICES = [
     
 ]
 
+
+class Audiologist(models.Model):
+    current = models.BooleanField(default=True)
+    name = models.CharField(max_length=255)
+    allowed = models.TextField(null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+
+
 class Client(models.Model):
+    audiologist = models.ForeignKey(Audiologist, limit_choices_to={'current': True})
+    audiologist_referral_date = models.DateField(null=True)
+    audiologist_appointment_date = models.DateField(null=True)
+
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
