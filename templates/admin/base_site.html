@@ -2,6 +2,16 @@
 {% load i18n %}
 {% load admin_static %}
 
+{#
+title and branding are copied from django/contrib/admin/templates/admin/base_site.html
+Ideally we'd just extend that file but we can't since this current file has the same name (so it'd try to extend itself)
+#}
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+{% endblock %}
+
+
 {% block footer %}
   {{ block.super }}
   <script type="text/javascript">
