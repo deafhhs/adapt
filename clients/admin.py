@@ -1,7 +1,14 @@
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
+from import_export.admin import ImportExportModelAdmin
 
-from .models import Audiologist, Client
+
+from .models import Audiologist
+from .models import AudiologistResource
+from .models import Client
+from .models import ClientResource
+from .models import Provider
+from .models import ProviderResource
 
 
 class DeleteNotAllowedModelAdmin(admin.ModelAdmin):
@@ -9,6 +16,10 @@ class DeleteNotAllowedModelAdmin(admin.ModelAdmin):
         return request.user.is_superuser
 
 
+class AudiologistAdmin(DeleteNotAllowedModelAdmin, ImportExportModelAdmin):
+    resource_class = AudiologistResource
+    
+    
 class AudiologistCurrentFilter(SimpleListFilter):
     '''
     Custom filter that defaults to "current" == True
@@ -59,6 +70,14 @@ class AudiologistAdmin(DeleteNotAllowedModelAdmin):
     ordering = ('name',)
 
 
+class ClientAdmin(ImportExportModelAdmin):
+    resource_class = ClientResource
+
+
+class ProviderAdmin(ImportExportModelAdmin):
+    resource_class = ProviderResource
+
+
 admin.site.disable_action('delete_selected')
 
 admin.site.site_header = 'Deaf & Hard of Hearing Services - ADAPT'
@@ -67,4 +86,5 @@ admin.site.site_url = None
 admin.site.index_title = ''
 
 admin.site.register(Audiologist, AudiologistAdmin)
-admin.site.register(Client)
+admin.site.register(Client, ClientAdmin)
+admin.site.register(Provider, ProviderAdmin)

@@ -1,4 +1,5 @@
 from django.db import models
+from import_export import resources
 import localflavor.us.models as lfmodels
 
 GENDER_CHOICES = [
@@ -33,6 +34,11 @@ class Audiologist(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class AudiologistResource(resources.ModelResource):
+    class Meta:
+        model = Audiologist
 
 
 class Client(models.Model):
@@ -89,8 +95,19 @@ class Client(models.Model):
     audiologist_appointment_date = models.DateField(null=True)
 
 
+class ClientResource(resources.ModelResource):
+    class Meta:
+        model = Client
+
+
 class Provider(models.Model):
     name = models.CharField(max_length=32)
+
+
+class ProviderResource(resources.ModelResource):
+    class Meta:
+        model = Provider
+
 
 SOURCE_CHOICES = [
     ('C', 'Client'),
@@ -113,6 +130,7 @@ INCOME_CHOICES = [
     ('CD' , 'Certificate  Deposits (CD)'),
     ('SB' , 'Stocks / Bonds'),
 ]
+
 
 class IncomeSource(models.Model):
     source = models.CharField(choices=SOURCE_CHOICES, max_length=1)
