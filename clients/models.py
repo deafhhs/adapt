@@ -132,6 +132,11 @@ class MeetingLog(models.Model):
 
     user = models.ForeignKey(User)
 
+class MeetingLogResource(resources.ModelResource):
+    class Meta:
+        model = MeetingLog
+        exclude = ('id',)
+
 class Provider(models.Model):
     name = models.CharField(max_length=32)
     notes = models.TextField(blank=True)
