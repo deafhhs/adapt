@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 from import_export import resources
 import localflavor.us.models as lfmodels
 
@@ -50,7 +51,7 @@ class Client(models.Model):
     date_of_birth = models.DateField()
     date_of_death = models.DateField(null=True, blank=True)
 
-    intake_date = models.DateField(auto_now_add=True)
+    intake_date = models.DateField(default=now)
 
     address = models.TextField(null=True, blank=True)
     city = models.CharField(null=True, blank=True, max_length=64)
