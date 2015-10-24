@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.timezone import now
 from import_export import resources
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
 import localflavor.us.models as lfmodels
 
 GENDER_CHOICES = [
@@ -111,7 +112,8 @@ class Client(models.Model):
     equipment_requested = models.BooleanField()
 
     cost_share_approval = models.DateField(blank=True, null=True)
-    cost_share = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    cost_share = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True,
+                                     validators=[MinValueValidator(0)])
 
     equipment_borrowed = models.TextField(blank=True)
 
@@ -135,7 +137,8 @@ class Client(models.Model):
     audiologist_referral_date = models.DateField(null=True, blank=True)
     audiologist_appointment_date = models.DateField(null=True, blank=True)
     audiologist_invoiced_date = models.DateField(blank=True, null=True)
-    audiologist_invoiced_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    audiologist_invoiced_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True,
+                                                      validators=[MinValueValidator(0)])
 
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)

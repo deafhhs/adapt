@@ -132,6 +132,7 @@ class MeetingLogAdmin(ImportExportModelAdmin):
     }
 
 class ProviderAdmin(ImportExportModelAdmin):
+    ordering = ('name',)
     resource_class = ProviderResource
     formfield_overrides = {
         models.TextField: {
