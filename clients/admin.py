@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
+from django.db import models
 from django.db.models.fields import CharField, TextField
+from django.forms import Textarea
 from import_export.admin import ImportExportModelAdmin
 
 
@@ -60,7 +62,6 @@ class AudiologistCurrentFilter(SimpleListFilter):
         }
 
 
-
 class AudiologistAdmin(DeleteNotAllowedModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'allowed', 'current')
     list_filter = (AudiologistCurrentFilter,)
@@ -76,6 +77,15 @@ class ClientAdmin(ImportExportModelAdmin):
     ordering = ('-intake_date',)
     date_hierarchy = 'intake_date'
     search_fields = [f.name for f in Client._meta.local_fields if isinstance(f, (CharField, TextField))]
+    formfield_overrides = {
+        models.TextField: {
+            'widget': Textarea(
+                attrs={'rows': 3,
+                       'cols': 40,
+                       'style': 'height: 3.6em;'}
+            )
+        },
+    }
 
 
 class ProviderAdmin(ImportExportModelAdmin):

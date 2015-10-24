@@ -39,6 +39,8 @@ class Audiologist(models.Model):
 class AudiologistResource(resources.ModelResource):
     class Meta:
         model = Audiologist
+        exclude = ('id',)
+        export_order = ('name', 'allowed', 'current', 'notes')
 
 
 class Client(models.Model):
@@ -113,6 +115,7 @@ class Client(models.Model):
 class ClientResource(resources.ModelResource):
     class Meta:
         model = Client
+        exclude = ('id',)
 
 
 class Provider(models.Model):
@@ -126,6 +129,8 @@ class Provider(models.Model):
 class ProviderResource(resources.ModelResource):
     class Meta:
         model = Provider
+        exclude = ('id',)
+        export_order = ('name',)
 
 
 SOURCE_CHOICES = [
