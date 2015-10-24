@@ -34,7 +34,11 @@ serve:
 
 .PHONY: check_production_security
 check_production_security:
-	python manage.py check_production_security
+	python manage.py check_production_security http://adapt.herokuapp.com
+
+.PHONY: check_production_security_dev
+check_production_security_dev:
+	python manage.py check_production_security http://localhost:5000
 
 .PHONY: heroku_deploy
 heroku_deploy:
