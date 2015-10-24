@@ -62,7 +62,7 @@ class Client(models.Model):
     spouse = models.CharField(null=True, blank=True, max_length=128)
 
     is_veteran = models.BooleanField(default=False)
-    live_alone = models.BooleanField()
+    lives_alone = models.BooleanField()
     family_size = models.PositiveSmallIntegerField(default=1)
 
     emergency_contact = models.CharField(null=True, blank=True, max_length=128)
@@ -80,9 +80,20 @@ class Client(models.Model):
     aids_requested_right = models.BooleanField()
     equipment_requested = models.BooleanField()
 
+    cost_share_approval = models.DateField(blank=True, null=True)
+    cost_share = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+
     equipment_borrowed = models.TextField(blank=True)
 
     provider = models.ForeignKey('Provider', blank=True, null=True)
+    audient_id = models.CharField(blank=True, null=True, max_length=16)
+    provider_auth_sent = models.DateField(blank=True, null=True)
+    provider_auth_recv = models.DateField(blank=True, null=True)
+
+    update_meeting = models.DateField(blank=True, null=True)
+    renewal = models.DateField(blank=True, null=True)
+
+    notes = models.TextField(blank=True)
 
     signed_client_intake = models.BooleanField()
     signed_disclosure_authorization = models.BooleanField()
@@ -93,6 +104,7 @@ class Client(models.Model):
     audiologist = models.ForeignKey(Audiologist, limit_choices_to={'current': True}, null=True, blank=True)
     audiologist_referral_date = models.DateField(null=True, blank=True)
     audiologist_appointment_date = models.DateField(null=True, blank=True)
+    audiologist_invoicded_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
@@ -105,6 +117,7 @@ class ClientResource(resources.ModelResource):
 
 class Provider(models.Model):
     name = models.CharField(max_length=32)
+    notes = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
@@ -139,6 +152,10 @@ INCOME_CHOICES = [
 
 
 class IncomeSource(models.Model):
+    client = models.ForeignKey(Client)
     source = models.CharField(choices=SOURCE_CHOICES, max_length=1)
     category = models.CharField(choices=INCOME_CHOICES, max_length=3)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        unique_together = ('client', 'source', 'category')

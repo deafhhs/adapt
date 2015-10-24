@@ -64,15 +64,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='IncomeSource',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
-                ('source', models.CharField(choices=[('C', 'Client'), ('S', 'Spouse'), ('O', 'Other')], max_length=1)),
-                ('category', models.CharField(choices=[('W', 'Wages'), ('SSS', 'Social Security Statement'), ('SSD', 'Social Security Disability (SSD)'), ('SSI', 'Social Security Income (SSI)'), ('VB', "Veteran's Benefits"), ('401', 'Retirement Fund (401), IRA'), ('A', 'Annuities'), ('PS', 'Pension Statement'), ('CAS', 'Checking Account Statement'), ('SAS', 'Savings Account Statement'), ('MFS', 'Mutual Fund Statement'), ('CD', 'Certificate  Deposits (CD)'), ('SB', 'Stocks / Bonds')], max_length=3)),
-                ('amount', models.DecimalField(decimal_places=2, max_digits=10)),
-            ],
-        ),
-        migrations.CreateModel(
             name='Provider',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
