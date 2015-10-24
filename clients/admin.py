@@ -14,10 +14,6 @@ from .models import ProviderResource
 class DeleteNotAllowedModelAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return request.user.is_superuser
-
-
-class AudiologistAdmin(DeleteNotAllowedModelAdmin, ImportExportModelAdmin):
-    resource_class = AudiologistResource
     
     
 class AudiologistCurrentFilter(SimpleListFilter):
@@ -64,10 +60,11 @@ class AudiologistCurrentFilter(SimpleListFilter):
 
 
 
-class AudiologistAdmin(DeleteNotAllowedModelAdmin):
+class AudiologistAdmin(DeleteNotAllowedModelAdmin, ImportExportModelAdmin):
     list_display = ('name', 'allowed', 'current')
     list_filter = (AudiologistCurrentFilter,)
     ordering = ('name',)
+    resource_class = AudiologistResource
 
 
 class ClientAdmin(ImportExportModelAdmin):
