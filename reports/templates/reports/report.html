@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Report: {{ report.name }}</title>
-
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% load admin_static %}
+{% block extrastyle %}
+    {{ block.super }}
     <style>
     @media print {
-        #knobs {
+        #header, .breadcrumbs, #knobs {
             display: none;
         }
     }
@@ -13,11 +13,38 @@
     #knobs li {
         display: inline;
     }
+
+    #report table {
+        border-collapse: collapse;
+        border-color: black;
+    }
+    #report tr {
+        border: thin solid black;
+    }
+    #report th, td {
+        padding: 0.3em;
+        border: none;
+        color: black;
+    }
+    #report tbody th {
+        text-align: left;
+    }
+    #report tr.odd {
+        background: silver;
+    }
+    fieldset {
+        padding: 0.35em 0.75em 0.625em 0.75em;
+        margin-top: 1em;
+    }
+    legend {
+        /* TODO: idk, needs something */
+    }
     </style>
+{% endblock %}
 </head>
 <body>
-<h1>{{ report.name }}</h1>
 
+{% block content %}
 <fieldset id="knobs">
     <legend>Options</legend>
     <form method="get">
@@ -26,6 +53,7 @@
     </form>
 </fieldset>
 
-{% block report %}{% endblock %}
-</body>
-</html
+<div id="report">
+    {% block report %}{% endblock %}
+</div>
+{% endblock %}

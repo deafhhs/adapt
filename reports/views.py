@@ -16,6 +16,7 @@ def adminctx(**kw):
 def index_view(request):
     # List possible reports
     return render(request, 'reports/index.html', adminctx(
+        title='Reports',
         reports=sorted(Report.iterreports(), key=lambda r: r.name),
     ))
 
@@ -28,4 +29,7 @@ def report_view(request, slug):
     data = rprt.report()
 
     data['report'] = rprt
-    return render(request, 'reports/{}'.format(tmpl), adminctx(**data))
+    return render(request, 'reports/{}'.format(tmpl), adminctx(
+        title=rprt.name,
+        **data
+    ))
