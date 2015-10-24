@@ -104,7 +104,7 @@ class Client(models.Model):
     audiologist = models.ForeignKey(Audiologist, limit_choices_to={'current': True}, null=True, blank=True)
     audiologist_referral_date = models.DateField(null=True, blank=True)
     audiologist_appointment_date = models.DateField(null=True, blank=True)
-    audiologist_invoicded_date = models.DateField(blank=True, null=True)
+    audiologist_invoiced_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
