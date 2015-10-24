@@ -117,4 +117,5 @@ class AssignmentReport(Report, name='Audiologist Assignments List', template='as
             'year': year,
             'month': calendar.month_name[month] if month else None,
             'clients': clients,
+            'invoice_sum': sum(c.audiologist_invoiced_amount or 0 for c in clients),
         }
