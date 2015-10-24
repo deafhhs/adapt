@@ -34,15 +34,15 @@ Ideally we'd just extend that file but we can't since this current file has the 
   <script type="text/javascript">
     (function($) {
         $(document).ready(function () {
-            var $income_inputs = $('.dynamic-incomesource_set .field-amount input');
+            var income_inputs_sel = '.dynamic-incomesource_set .field-amount input';
             function compute_income_total() {
                 var income_total = 0;
-                $income_inputs.each(function() {
+                $(income_inputs_sel).each(function() {
                     if (this.value) {
                         income_total += parseFloat(this.value);
                     }
                 });
-                var $destination = $('.add-row td', $income_inputs.parents());
+                var $destination = $('.add-row:first td', $(income_inputs_sel).parents());
                 $('.income_total', $destination).remove();  // any previous value
                 var less_than;
                 if (income_total < 11770) {
@@ -57,7 +57,7 @@ Ideally we'd just extend that file but we can't since this current file has the 
                     + income_total + '</strong>' + less_than + '</span>');
             }
             compute_income_total();
-            $income_inputs.change(compute_income_total);
+            $('#incomesource_set-group').on('change', income_inputs_sel, compute_income_total);
         });
     })(django.jQuery);
   </script>
