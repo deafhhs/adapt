@@ -1,0 +1,7 @@
+Django==1.8.5
+
+# copied from django-toolbelt but omitting psycopg2
+gunicorn
+dj-database-url
+dj-static
+django-localflavor

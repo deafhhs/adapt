@@ -20,6 +20,16 @@ load_fixtures:
 .PHONY: install
 install: clean migrate load_fixtures
 
+.PHONY: dev_requirements
+dev_requirements:
+	pip install -r dev_requirements.txt
+
 .PHONY: serve
 serve :
 	heroku local
+
+.PHONY: heroku_deploy
+heroku_deploy:
+	git push heroku master
+	heroku run make migrate
+	heroku run make load_fixtures
