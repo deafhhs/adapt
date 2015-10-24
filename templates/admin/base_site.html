@@ -13,14 +13,17 @@ Ideally we'd just extend that file but we can't since this current file has the 
 
 {% block nav-global %}
     {{ block.super }}
-    <h3 id="reports_link"><a href="/reports/">Reports</a></h3>
+    <div id="reports_link"><a href="/reports/">Reports</a></div>
 {% endblock %}
 
 {% block extrastyle %}
     <style>
         #reports_link {
-            margin-left: 1em;
-            margin-bottom: 2em;
+            float: right;
+            padding: 1.2em 10px;
+            font-size: 11px;
+            text-align: right;
+            font-weight: bold;
         }
         .module {
             margin-bottom: 3em;
