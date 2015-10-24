@@ -68,6 +68,9 @@ class Client(models.Model):
     date_of_death = models.DateField(null=True, blank=True)
 
     intake_date = models.DateField(default=now)
+    renewal = models.DateField(blank=True, null=True)
+    intake_staff = models.ForeignKey(User, blank=True, null=True, related_name='+')
+    data_entry_staff = models.ForeignKey(User, blank=True, null=True, related_name='+')
 
     address = models.TextField(null=True, blank=True)
     city = models.CharField(null=True, blank=True, max_length=64)
@@ -110,10 +113,10 @@ class Client(models.Model):
     provider_auth_recv = models.DateField(blank=True, null=True)
 
     update_meeting = models.DateField(blank=True, null=True)
-    renewal = models.DateField(blank=True, null=True)
 
     notes = models.TextField(blank=True)
 
+    proof_of_age = models.BooleanField()
     signed_client_intake = models.BooleanField()
     signed_disclosure_authorization = models.BooleanField()
     signed_confidentiality_policy = models.BooleanField()
@@ -124,6 +127,7 @@ class Client(models.Model):
     audiologist_referral_date = models.DateField(null=True, blank=True)
     audiologist_appointment_date = models.DateField(null=True, blank=True)
     audiologist_invoiced_date = models.DateField(blank=True, null=True)
+    audiologist_invoiced_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
