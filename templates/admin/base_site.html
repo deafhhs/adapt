@@ -1,0 +1,37 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% load admin_static %}
+
+{% block footer %}
+  {{ block.super }}
+  <script type="text/javascript">
+    (function($) {
+        $(document).ready(function () {
+            var $income_inputs = $('.dynamic-incomesource_set .field-amount input');
+            function compute_income_total() {
+                var income_total = 0;
+                $income_inputs.each(function() {
+                    if (this.value) {
+                        income_total += parseFloat(this.value);
+                    }
+                });
+                var $destination = $('.add-row td', $income_inputs.parents());
+                $('.income_total', $destination).remove();  // any previous value
+                var less_than;
+                if (income_total < 11770) {
+                    less_than = '< $11,770';
+                } else if (income_total < 23540) {
+                    less_than = '< $23,540';
+                } else {
+                    less_than = 'not low income';
+                }
+                $destination.append(
+                    '<span class="income_total" style="margin-left:40%"><strong style="margin-right:3em">Total: $'
+                    + income_total + '</strong>' + less_than + '</span>');
+            }
+            compute_income_total();
+            $income_inputs.change(compute_income_total);
+        });
+    })(django.jQuery);
+  </script>
+{% endblock %}

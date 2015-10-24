@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 from django.db import models
 from django.db.models.fields import CharField, TextField
-from django.forms import Textarea
+from django.forms import Textarea, ModelForm
 from import_export.admin import ImportExportModelAdmin
 
 
@@ -71,10 +71,12 @@ class AudiologistAdmin(DeleteNotAllowedModelAdmin, ImportExportModelAdmin):
     ordering = ('name',)
     resource_class = AudiologistResource
 
+
 class ClientIncomeInlineAdmin(admin.TabularInline):
     model = IncomeSource
     can_delete = True
     extra = 1
+
 
 class ClientAdmin(ImportExportModelAdmin):
     resource_class = ClientResource
