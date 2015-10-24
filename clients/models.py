@@ -70,7 +70,7 @@ class Client(models.Model):
 
     race = models.CharField(choices=RACE_CHOICES, max_length=2)
     is_hispanic = models.BooleanField()
-    additional_races = models.CharField(max_length=256)
+    additional_races = models.CharField(max_length=256, null=True, blank=True)
 
     referrer = models.CharField(null=True, blank=True, max_length=256)
 
@@ -82,7 +82,7 @@ class Client(models.Model):
 
     equipment_borrowed = models.TextField(blank=True)
 
-    provider = models.ForeignKey('Provider')
+    provider = models.ForeignKey('Provider', blank=True, null=True)
 
     signed_client_intake = models.BooleanField()
     signed_disclosure_authorization = models.BooleanField()
@@ -90,9 +90,9 @@ class Client(models.Model):
     signed_gross_annual_income = models.BooleanField()
     signed_client_responsibility_fees = models.BooleanField()
 
-    audiologist = models.ForeignKey(Audiologist, limit_choices_to={'current': True})
-    audiologist_referral_date = models.DateField(null=True)
-    audiologist_appointment_date = models.DateField(null=True)
+    audiologist = models.ForeignKey(Audiologist, limit_choices_to={'current': True}, null=True, blank=True)
+    audiologist_referral_date = models.DateField(null=True, blank=True)
+    audiologist_appointment_date = models.DateField(null=True, blank=True)
 
 
 class ClientResource(resources.ModelResource):
