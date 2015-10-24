@@ -40,7 +40,7 @@ tr.odd {
     <tbody>
 {% for client in clients %}
     <tr class="{% cycle 'odd' 'even' %}">
-        <th>{{ client }}</th>
+        <th><a href="{{client.get_absolute_url}}">{{ client }}</a></th>
         <td>{{ client.intake_date }}</td>
         <td>{{ client.hearing_loss }}</td>
         <td>{{ client.provider }}</td>

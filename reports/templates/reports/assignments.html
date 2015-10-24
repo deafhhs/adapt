@@ -47,11 +47,11 @@ tr.odd {
     <tbody>
 {% for client in clients %}
     <tr class="{% cycle 'odd' 'even' %}">
-        <th>{{ client }}</th>
+        <th><a href="{{client.get_absolute_url}}">{{ client }}</a></th>
         <td>{{ client.audiologist_appointment_date }}</td>
         <td>{{ client.audient_id }}</td>
         <td>{{ client.audiologist_invoiced_amount }}</td>
-        <td>{{ client.audiologist }}</td>
+        <td><a href="{{client.audiologist.get_absolute_url}}">{{ client.audiologist }}</a></td>
         <td>{{ client.provider }}</td>
         <td>{{ client.provider_auth_sent }}</td>
         <td>{{ client.provider_auth_recv }}</td>

@@ -30,11 +30,11 @@ tr.odd {
     <tbody>
 {% for audiologist, clients in auds %}
     <tr class="{% cycle 'odd' 'even' %}">
-        <th>{{ audiologist.name }}</th>
+        <th><a href="{{audiologist.get_absolute_url}}">{{ audiologist }}</a></th>
         <td>{{ audiologist.allowed }}</td>
         <td>
         {% for client in clients %}
-            {{ client.first_name }} {{ client.last_name }}{% if not forloop.last %}, {% endif %}
+            <a href="{{client.get_absolute_url}}">{{ client }}</a>{% if not forloop.last %}, {% endif %}
         {% endfor %}
         </td>
     </tr>
