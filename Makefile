@@ -16,6 +16,7 @@ migrate:
 .PHONY: load_fixtures
 load_fixtures:
 	python manage.py loaddata adapt/fixtures/auth.json
+	python manage.py loaddata adapt/fixtures/audiologists.json
 
 .PHONY: install
 install: clean migrate load_fixtures

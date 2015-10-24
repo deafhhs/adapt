@@ -1,0 +1,82 @@
+[
+  {
+    "fields": {
+      "allowed": "2 Starkey or Audient",
+      "current": true,
+      "notes": "",
+      "name": "McDonalds"
+    },
+    "pk": 1,
+    "model": "clients.audiologist"
+  },
+  {
+    "fields": {
+      "allowed": "1 Starkey (Quota)",
+      "current": true,
+      "notes": "",
+      "name": "Hearing Resources"
+    },
+    "pk": 2,
+    "model": "clients.audiologist"
+  },
+  {
+    "fields": {
+      "allowed": "1 Starkey",
+      "current": true,
+      "notes": "",
+      "name": "Ron Hageman"
+    },
+    "pk": 3,
+    "model": "clients.audiologist"
+  },
+  {
+    "fields": {
+      "allowed": "2 Audient",
+      "current": true,
+      "notes": "",
+      "name": "AVA Hearing Resources"
+    },
+    "pk": 4,
+    "model": "clients.audiologist"
+  },
+  {
+    "fields": {
+      "allowed": "No limit on Assure",
+      "current": true,
+      "notes": "",
+      "name": "Meijer"
+    },
+    "pk": 5,
+    "model": "clients.audiologist"
+  },
+  {
+    "fields": {
+      "allowed": "2 Starkey",
+      "current": true,
+      "notes": "",
+      "name": "West MI Hearing Services"
+    },
+    "pk": 6,
+    "model": "clients.audiologist"
+  },
+  {
+    "fields": {
+      "allowed": "2 Starkey or Audient",
+      "current": true,
+      "notes": "",
+      "name": "Hear USA"
+    },
+    "pk": 7,
+    "model": "clients.audiologist"
+  },
+  {
+    "fields": {
+      "allowed": "Occasionally 1 Starkey",
+      "current": true,
+      "notes": "",
+      "name": "ENT Consultants"
+    },
+    "pk": 8,
+    "model": "clients.audiologist"
+  }
+]
