@@ -134,3 +134,6 @@ else:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_SECONDS = 60*60*24*365
+
+LOGIN_URL = '/admin/login/'
+LOGOUT_URL = '/admin/logout/'
