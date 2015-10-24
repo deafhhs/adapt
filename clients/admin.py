@@ -77,9 +77,18 @@ class ClientIncomeInlineAdmin(admin.TabularInline):
     can_delete = True
     extra = 1
 
+class MeetingLogInlineAdminForm(ModelForm):
+    class Meta:
+        model = MeetingLog
+        fields = '__all__'
+        widgets = {
+            'results': Textarea(attrs={'rows': 3, 'cols': 40}),
+        }
+
 
 class MeetingLogInlineAdmin(admin.TabularInline):
     model = MeetingLog
+    form = MeetingLogInlineAdminForm
     can_delete = True
     extra = 1
 
