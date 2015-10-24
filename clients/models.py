@@ -37,6 +37,10 @@ class Audiologist(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return "/admin/clients/client/{}/".format(self.id)
+
+
 
 class AudiologistResource(resources.ModelResource):
     class Meta:
@@ -51,6 +55,9 @@ class Provider(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return "/admin/clients/client/{}/".format(self.id)
 
 
 class ProviderResource(resources.ModelResource):
@@ -133,6 +140,10 @@ class Client(models.Model):
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
+    def get_absolute_url(self):
+        return "/admin/clients/client/{}/".format(self.id)
+
+
 
 class ClientResource(resources.ModelResource):
     class Meta:
@@ -167,6 +178,10 @@ class MeetingLog(models.Model):
     results = models.TextField(blank=True)
 
     user = models.ForeignKey(User)
+
+    def get_absolute_url(self):
+        return "/admin/clients/client/{}/".format(self.id)
+    
 
 class MeetingLogResource(resources.ModelResource):
     class Meta:
