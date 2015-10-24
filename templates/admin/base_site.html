@@ -11,8 +11,7 @@ Ideally we'd just extend that file but we can't since this current file has the 
 <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
 {% endblock %}
 
-
-{% block messages %}
+{% block nav-global %}
     {{ block.super }}
     <h3 id="reports_link"><a href="/reports/">Reports</a></h3>
 {% endblock %}
