@@ -12,6 +12,7 @@ from .models import Client
 from .models import ClientResource
 from .models import Provider
 from .models import ProviderResource
+from .models import IncomeSource
 
 
 class DeleteNotAllowedModelAdmin(admin.ModelAdmin):
@@ -68,6 +69,10 @@ class AudiologistAdmin(DeleteNotAllowedModelAdmin, ImportExportModelAdmin):
     ordering = ('name',)
     resource_class = AudiologistResource
 
+class ClientIncomeInlineAdmin(admin.TabularInline):
+    model = IncomeSource
+    can_delete = True
+    extra = 1
 
 class ClientAdmin(ImportExportModelAdmin):
     resource_class = ClientResource
@@ -86,6 +91,7 @@ class ClientAdmin(ImportExportModelAdmin):
             )
         },
     }
+    inlines = (ClientIncomeInlineAdmin,)
 
 
 class ProviderAdmin(ImportExportModelAdmin):

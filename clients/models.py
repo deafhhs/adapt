@@ -165,3 +165,6 @@ class IncomeSource(models.Model):
 
     class Meta:
         unique_together = ('client', 'source', 'category')
+
+    def __str__(self):
+        return '{} {} ${}'.format(self.source, self.category, self.amount)
