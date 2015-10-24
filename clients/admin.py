@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 from django.db import models
 from django.db.models.fields import CharField, TextField
-from django.forms import Textarea
+from django.forms import Textarea, ModelForm
 from import_export.admin import ImportExportModelAdmin
 
 
@@ -10,6 +10,8 @@ from .models import Audiologist
 from .models import AudiologistResource
 from .models import Client
 from .models import ClientResource
+from .models import MeetingLog
+from .models import MeetingLogResource
 from .models import Provider
 from .models import ProviderResource
 from .models import IncomeSource
@@ -69,10 +71,18 @@ class AudiologistAdmin(DeleteNotAllowedModelAdmin, ImportExportModelAdmin):
     ordering = ('name',)
     resource_class = AudiologistResource
 
+
 class ClientIncomeInlineAdmin(admin.TabularInline):
     model = IncomeSource
     can_delete = True
     extra = 1
+
+
+class MeetingLogInlineAdmin(admin.TabularInline):
+    model = MeetingLog
+    can_delete = True
+    extra = 1
+
 
 class ClientAdmin(ImportExportModelAdmin):
     resource_class = ClientResource
@@ -91,8 +101,24 @@ class ClientAdmin(ImportExportModelAdmin):
             )
         },
     }
-    inlines = (ClientIncomeInlineAdmin,)
+    inlines = (ClientIncomeInlineAdmin,MeetingLogInlineAdmin)
 
+class MeetingLogAdmin(ImportExportModelAdmin):
+    resource_class = MeetingLogResource
+    list_display = ('client', 'contact_date', 'consultation_time', 'paperwork_time', 'results', 'user')
+    list_display_links = ('contact_date',)
+    list_filter = ('client', 'contact_date', 'user')
+    ordering = ('-contact_date',)
+    date_hierarchy = 'contact_date'
+    formfield_overrides = {
+        models.TextField: {
+            'widget': Textarea(
+                attrs={'rows': 3,
+                       'cols': 40,
+                       'style': 'height: 3.6em;'}
+            )
+        },
+    }
 
 class ProviderAdmin(ImportExportModelAdmin):
     resource_class = ProviderResource
@@ -108,3 +134,4 @@ admin.site.index_title = ''
 admin.site.register(Audiologist, AudiologistAdmin)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Provider, ProviderAdmin)
+admin.site.register(MeetingLog, MeetingLogAdmin)

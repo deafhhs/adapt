@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.timezone import now
 from import_export import resources
+from django.contrib.auth.models import User
 import localflavor.us.models as lfmodels
 
 GENDER_CHOICES = [
@@ -132,21 +133,40 @@ class ClientResource(resources.ModelResource):
     class Meta:
         model = Client
         fields = ('first_name', 'last_name', 'gender', 'date_of_birth',
-                  'date_of_death', 'intake_date', 'address', 'city', 'state',
-                  'zip_code', 'deliverable', 'email', 'phone', 'spouse',
-                  'is_veteran', 'lives_alone', 'family_size',
-                  'emergency_contact', 'emergency_phone', 'race', 'is_hispanic',
-                  'additional_races', 'referrer', 'hearing_loss',
-                  'aids_requested_left', 'aids_requested_right',
-                  'equipment_requested', 'cost_share_approval', 'cost_share',
-                  'equipment_borrowed', 'provider__name', 'audient_id',
-                  'provider_auth_sent', 'provider_auth_recv', 'update_meeting',
-                  'renewal', 'notes', 'signed_client_intake',
-                  'signed_disclosure_authorization',
-                  'signed_confidentiality_policy', 'signed_gross_annual_income',
-                  'signed_client_responsibility_fees', 'audiologist__name',
-                  'audiologist_referral_date', 'audiologist_appointment_date',
-                  'audiologist_invoiced_date')
+          'date_of_death', 'intake_date', 'address', 'city', 'state',
+          'zip_code', 'deliverable', 'email', 'phone', 'spouse',
+          'is_veteran', 'lives_alone', 'family_size',
+          'emergency_contact', 'emergency_phone', 'race', 'is_hispanic',
+          'additional_races', 'referrer', 'hearing_loss',
+          'aids_requested_left', 'aids_requested_right',
+          'equipment_requested', 'cost_share_approval', 'cost_share',
+          'equipment_borrowed', 'provider__name', 'audient_id',
+          'provider_auth_sent', 'provider_auth_recv', 'update_meeting',
+          'renewal', 'notes', 'signed_client_intake',
+          'signed_disclosure_authorization',
+          'signed_confidentiality_policy', 'signed_gross_annual_income',
+          'signed_client_responsibility_fees', 'audiologist__name',
+          'audiologist_referral_date', 'audiologist_appointment_date',
+          'audiologist_invoiced_date')
+
+
+
+class MeetingLog(models.Model):
+    client = models.ForeignKey(Client)
+
+    contact_date = models.DateField()
+
+    consultation_time = models.PositiveIntegerField(default=15)
+    paperwork_time = models.PositiveIntegerField(default=15)
+
+    results = models.TextField(blank=True)
+
+    user = models.ForeignKey(User)
+
+class MeetingLogResource(resources.ModelResource):
+    class Meta:
+        model = MeetingLog
+        exclude = ('id',)
 
 
 SOURCE_CHOICES = [
