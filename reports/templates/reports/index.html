@@ -1,0 +1,5 @@
+<ul>
+{% for report in reports %}
+	<li><a href="{{ report.slug }}">{{ report.name }}</a></li>
+{% endfor %}
+</ul>

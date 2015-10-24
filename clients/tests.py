@@ -3,7 +3,7 @@ from django.test import TestCase
 
 class TestAdminPages(TestCase):
 
-    fixtures = ['auth', 'audiologists', 'providers']
+    fixtures = ['auth', 'audiologists', 'clients', 'providers']
 
     def setUp(self):
         assert self.client.login(username='admin', password='admin')
@@ -22,6 +22,10 @@ class TestAdminPages(TestCase):
         resp = self.client.get('/admin/clients/client/add/', secure=True)
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'First name')
+
+    def test_client_1(self):
+        resp = self.client.get('/admin/clients/client/1/', secure=True)
+        self.assertEqual(resp.status_code, 200)
 
 
     def test_provider_list(self):
