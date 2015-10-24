@@ -17,6 +17,11 @@ from .models import ProviderResource
 from .models import IncomeSource
 
 
+standard_textarea = Textarea(attrs={'rows': 3,
+                                    'cols': 40,
+                                    'style': 'height: 3.6em;'})
+
+
 class DeleteNotAllowedModelAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return request.user.is_superuser
@@ -70,6 +75,11 @@ class AudiologistAdmin(DeleteNotAllowedModelAdmin, ImportExportModelAdmin):
     list_filter = (AudiologistCurrentFilter,)
     ordering = ('name',)
     resource_class = AudiologistResource
+    formfield_overrides = {
+        models.TextField: {
+            'widget': standard_textarea,
+        },
+    }
 
 
 class ClientIncomeInlineAdmin(admin.TabularInline):
@@ -82,7 +92,7 @@ class MeetingLogInlineAdminForm(ModelForm):
         model = MeetingLog
         fields = '__all__'
         widgets = {
-            'results': Textarea(attrs={'rows': 3, 'cols': 40}),
+            'results': standard_textarea,
         }
 
 
@@ -103,11 +113,7 @@ class ClientAdmin(ImportExportModelAdmin):
     search_fields = [f.name for f in Client._meta.local_fields if isinstance(f, (CharField, TextField))]
     formfield_overrides = {
         models.TextField: {
-            'widget': Textarea(
-                attrs={'rows': 3,
-                       'cols': 40,
-                       'style': 'height: 3.6em;'}
-            )
+            'widget': standard_textarea,
         },
     }
     inlines = (ClientIncomeInlineAdmin,MeetingLogInlineAdmin)
@@ -121,16 +127,17 @@ class MeetingLogAdmin(ImportExportModelAdmin):
     date_hierarchy = 'contact_date'
     formfield_overrides = {
         models.TextField: {
-            'widget': Textarea(
-                attrs={'rows': 3,
-                       'cols': 40,
-                       'style': 'height: 3.6em;'}
-            )
+            'widget': standard_textarea,
         },
     }
 
 class ProviderAdmin(ImportExportModelAdmin):
     resource_class = ProviderResource
+    formfield_overrides = {
+        models.TextField: {
+            'widget': standard_textarea,
+        },
+    }
 
 
 admin.site.disable_action('delete_selected')
