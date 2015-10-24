@@ -27,3 +27,9 @@ dev_requirements:
 .PHONY: serve
 serve :
 	heroku local
+
+.PHONY: heroku_deploy
+heroku_deploy:
+	git push heroku master
+	heroku run make migrate
+	heroku run make load_fixtures
