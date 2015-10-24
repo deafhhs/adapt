@@ -1,0 +1,34 @@
+{% extends "reports/report.html" %}
+
+{% block report %}
+{% for client in clients %}
+<div class="printpage">
+    <h2><a href="{{client.get_absolute_url}}">{{ client }}</a>: {{ client.date_of_birth }}</h2>
+    <table>
+        <caption>Income Summary</caption>
+        <thead>
+            <tr>
+                <th>Who</th>
+                <th>How</th>
+                <th>Amount</th>
+            </tr>
+        <tbody>
+        {% for incsrc in client.incomesource_set.all %}
+            <tr class="{% cycle 'odd' 'even' %}">
+                <th>{{ incsrc.source }}</th>
+                <th>{{ incsrc.category }}</th>
+                <td>{{ incsrc.amount }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <td></td>
+            <th>Total:</th>
+            <td>{{ client.total_income }}</td>
+    </table>
+    
+    <div>Approval date: <span class="write"></span></div>
+    <div>Cost share: <span class="write"></span></div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -146,6 +146,11 @@ class Client(models.Model):
     def get_absolute_url(self):
         return "/admin/clients/client/{}/".format(self.id)
 
+    @property
+    def total_income(self):
+        return self.incomesource_set.all().aggregate(models.Sum('amount'))['amount__sum']
+    
+
 
 
 class ClientResource(resources.ModelResource):

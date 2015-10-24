@@ -52,6 +52,7 @@ class Report(forms.Form, metaclass=ReportMeta):
 import datetime
 import calendar
 from clients.models import Client, Audiologist
+from django.db.models import Q
 
 class AudiologistReport(Report, name='Audiologist List', template='audiologist.html'):
     year = forms.IntegerField(label='Year', min_value=2000, max_value=2050, required=False)
@@ -123,6 +124,17 @@ class AssignmentReport(Report, name='Audiologist Assignments List', template='as
 class WaitlistReport(Report, name='Waiting List', template='waitlist.html'):
     def report(self):
         clients = Client.objects.filter(audiologist__isnull=True).order_by('intake_date')
+
+        return {
+            'clients': clients
+        }
+
+class ApprovalReport(Report, name='Client Approval List', template='approvelist.html'):
+    def report(self):
+        clients = Client.objects.filter(
+            Q(cost_share_approval__isnull=True) |
+            Q(cost_share__isnull=True)
+        ).order_by('intake_date')
 
         return {
             'clients': clients

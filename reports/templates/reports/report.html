@@ -8,6 +8,9 @@
         #header, .breadcrumbs, #knobs {
             display: none;
         }
+        .printpage {
+            page-break-after: always;
+        }
     }
 
     #knobs li {
@@ -21,7 +24,7 @@
     #report tr {
         border: thin solid black;
     }
-    #report th, td {
+    #report th, #report td {
         padding: 0.3em;
         border: none;
         color: black;
@@ -39,12 +42,20 @@
     legend {
         /* TODO: idk, needs something */
     }
+
+    span.write {
+        display: inline-block;
+        border-bottom: thin solid black;
+        height: 0.5in;
+        width: 2in;
+    }
     </style>
 {% endblock %}
 </head>
 <body>
 
 {% block content %}
+{% if report.fields %}
 <fieldset id="knobs">
     <legend>Options</legend>
     <form method="get">
@@ -52,6 +63,7 @@
             <input type="submit" value="Update" />
     </form>
 </fieldset>
+{% endif %}
 
 <div id="report">
     {% block report %}{% endblock %}
