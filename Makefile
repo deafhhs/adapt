@@ -7,7 +7,7 @@ clean: clean_db
 
 .PHONY: clean_db
 clean_db:
-	rm -f sqlite.db
+	rm -f db.sqlite3
 
 .PHONY: migrate
 migrate:
