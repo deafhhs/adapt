@@ -1,17 +1,22 @@
 from django.test import TestCase
 
 
-class TestAdminPages(TestCase):
+class TestPages(TestCase):
 
     fixtures = ['auth', 'audiologists', 'clients', 'providers']
 
     def setUp(self):
         assert self.client.login(username='admin', password='admin')
 
-    def test_root(self):
+    def test_admin_root(self):
         resp = self.client.get('/admin/', secure=True)
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'ADAPT Client Management')
+
+    def test_admin_root_requires_login(self):
+        self.client.logout()
+        resp = self.client.get('/admin/', secure=True)
+        self.assertEqual(resp.status_code, 302)
 
 
     def test_client_list(self):
@@ -57,3 +62,21 @@ class TestAdminPages(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'McDonalds')
 
+
+    def test_log_list(self):
+        resp = self.client.get('/admin/clients/meetinglog/', secure=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_log_add(self):
+        resp = self.client.get('/admin/clients/meetinglog/add/', secure=True)
+        self.assertEqual(resp.status_code, 200)
+
+
+    def test_reports(self):
+        resp = self.client.get('/reports/', secure=True)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_reports_requires_login(self):
+        self.client.logout()
+        resp = self.client.get('/reports/', secure=True)
+        self.assertEqual(resp.status_code, 302)

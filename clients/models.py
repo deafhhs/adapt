@@ -61,6 +61,7 @@ class ProviderResource(resources.ModelResource):
 
 
 class Client(models.Model):
+    # TODO: thresholds for income will change over time
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     gender = models.CharField(max_length=10, choices=zip(GENDER_CHOICES, GENDER_CHOICES))
