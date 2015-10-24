@@ -106,6 +106,9 @@ class ClientResource(resources.ModelResource):
 class Provider(models.Model):
     name = models.CharField(max_length=32)
 
+    def __str__(self):
+        return self.name
+
 
 class ProviderResource(resources.ModelResource):
     class Meta:

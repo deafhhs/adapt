@@ -1,0 +1,23 @@
+[
+  {
+    "fields": {
+      "name": "Starkey"
+    },
+    "model": "clients.provider",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "name": "Audient"
+    },
+    "model": "clients.provider",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "name": "Meijer Hearing Center"
+    },
+    "model": "clients.provider",
+    "pk": 3
+  }
+]
