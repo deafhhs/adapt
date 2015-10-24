@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'import_export',
     'adapt',
     'clients',
+    'reports',
 )
 
 MIDDLEWARE_CLASSES = (
