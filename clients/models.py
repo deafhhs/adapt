@@ -41,6 +41,7 @@ class Client(models.Model):
     last_name = models.CharField(max_length=64)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     date_of_birth = models.DateField()
+    date_of_death = models.DateField(null=True, blank=True)
 
     intake_date = models.DateField(auto_now_add=True)
 
@@ -75,3 +76,42 @@ class Client(models.Model):
     equipment_requested = models.BooleanField()
 
     equipment_borrowed = models.TextField(blank=True)
+
+    provider = models.ForeignKey('Provider')
+
+    signed_client_intake = models.BooleanField()
+    signed_disclosure_authorization = models.BooleanField()
+    signed_confidentiality_policy = models.BooleanField()
+    signed_gross_annual_income = models.BooleanField()
+    signed_client_responsibility_fees = models.BooleanField()
+
+
+class Provider(models.Model):
+    name = models.CharField(max_length=32)
+
+SOURCE_CHOICES = [
+    ('C', 'Client'),
+    ('S', 'Spouse'),
+    ('O', 'Other'),
+]
+
+INCOME_CHOICES = [
+    ('W'  , 'Wages'),
+    ('SSS', 'Social Security Statement'),
+    ('SSD', 'Social Security Disability (SSD)'),
+    ('SSI', 'Social Security Income (SSI)'),
+    ('VB' , "Veteran's Benefits"),
+    ('401', 'Retirement Fund (401), IRA'),
+    ('A'  , 'Annuities'),
+    ('PS' , 'Pension Statement'),
+    ('CAS', 'Checking Account Statement'),
+    ('SAS', 'Savings Account Statement'),
+    ('MFS', 'Mutual Fund Statement'),
+    ('CD' , 'Certificate  Deposits (CD)'),
+    ('SB' , 'Stocks / Bonds'),
+]
+
+class IncomeSource(models.Model):
+    source = models.CharField(choices=SOURCE_CHOICES, max_length=1)
+    category = models.CharField(choices=INCOME_CHOICES, max_length=3)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
