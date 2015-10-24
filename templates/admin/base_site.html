@@ -12,6 +12,23 @@ Ideally we'd just extend that file but we can't since this current file has the 
 {% endblock %}
 
 
+{% block messages %}
+    {{ block.super }}
+    <h3 id="reports_link"><a href="/reports/">Reports</a></h3>
+{% endblock %}
+
+{% block extrastyle %}
+    <style>
+        #reports_link {
+            margin-left: 1em;
+            margin-bottom: 2em;
+        }
+        .module {
+            margin-bottom: 3em;
+        }
+    </style>
+{% endblock %}
+
 {% block footer %}
   {{ block.super }}
   <script type="text/javascript">
