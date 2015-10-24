@@ -38,7 +38,7 @@ class Audiologist(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return "/admin/clients/client/{}/".format(self.id)
+        return "/admin/clients/audiologist/{}/".format(self.id)
 
 
 
@@ -57,7 +57,7 @@ class Provider(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return "/admin/clients/client/{}/".format(self.id)
+        return "/admin/clients/provider/{}/".format(self.id)
 
 
 class ProviderResource(resources.ModelResource):
@@ -180,7 +180,7 @@ class MeetingLog(models.Model):
     user = models.ForeignKey(User)
 
     def get_absolute_url(self):
-        return "/admin/clients/client/{}/".format(self.id)
+        return "/admin/clients/meetinglog/{}/".format(self.id)
     
 
 class MeetingLogResource(resources.ModelResource):
