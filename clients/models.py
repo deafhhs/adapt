@@ -4,26 +4,26 @@ from import_export import resources
 import localflavor.us.models as lfmodels
 
 GENDER_CHOICES = [
-    ('M', 'Male'),
-    ('F', 'Female'),
-    ('O', 'Other')
+    'Male',
+    'Female',
+    'Other'
 ]
 
 RACE_CHOICES = [
-    ('AA', 'Afro. Amer.'),
-    ('Al', 'Aleut'),
-    ('As', 'Asian'),
-    ('Es', 'Eskimo'),
-    ('PI', 'Pac. Islander'),
-    ('Wh', 'White'),
-    ('O' , 'Other')
+    'Afro. Amer.',
+    'Aleut',
+    'Asian',
+    'Eskimo',
+    'Pac. Islander',
+    'White',
+    'Other',
 ]
 
 LOSS_CHOICES = [
-    (1, 'Mild'),
-    (2, 'Medium'),
-    (3, 'Severe'),
-    (4, 'Profound')
+    'Mild',
+    'Medium',
+    'Severe',
+    'Profound'
 ]
 
 
@@ -47,7 +47,7 @@ class AudiologistResource(resources.ModelResource):
 class Client(models.Model):
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    gender = models.CharField(max_length=10, choices=zip(GENDER_CHOICES, GENDER_CHOICES))
     date_of_birth = models.DateField()
     date_of_death = models.DateField(null=True, blank=True)
 
@@ -71,13 +71,13 @@ class Client(models.Model):
     emergency_contact = models.CharField(null=True, blank=True, max_length=128)
     emergency_phone = lfmodels.PhoneNumberField(null=True, blank=True)
 
-    race = models.CharField(choices=RACE_CHOICES, max_length=2)
+    race = models.CharField(choices=zip(RACE_CHOICES, RACE_CHOICES), max_length=255)
     is_hispanic = models.BooleanField()
     additional_races = models.CharField(max_length=256, null=True, blank=True)
 
     referrer = models.CharField(null=True, blank=True, max_length=256)
 
-    hearing_loss = models.PositiveSmallIntegerField(choices=LOSS_CHOICES)
+    hearing_loss = models.CharField(choices=zip(LOSS_CHOICES, LOSS_CHOICES), max_length=255)
 
     aids_requested_left = models.BooleanField()
     aids_requested_right = models.BooleanField()
@@ -135,32 +135,32 @@ class ProviderResource(resources.ModelResource):
 
 
 SOURCE_CHOICES = [
-    ('C', 'Client'),
-    ('S', 'Spouse'),
-    ('O', 'Other'),
+    'Client',
+    'Spouse',
+    'Other',
 ]
 
 INCOME_CHOICES = [
-    ('W'  , 'Wages'),
-    ('SSS', 'Social Security Statement'),
-    ('SSD', 'Social Security Disability (SSD)'),
-    ('SSI', 'Social Security Income (SSI)'),
-    ('VB' , "Veteran's Benefits"),
-    ('401', 'Retirement Fund (401), IRA'),
-    ('A'  , 'Annuities'),
-    ('PS' , 'Pension Statement'),
-    ('CAS', 'Checking Account Statement'),
-    ('SAS', 'Savings Account Statement'),
-    ('MFS', 'Mutual Fund Statement'),
-    ('CD' , 'Certificate  Deposits (CD)'),
-    ('SB' , 'Stocks / Bonds'),
+    'Wages',
+    'Social Security Statement',
+    'Social Security Disability (SSD)',
+    'Social Security Income (SSI)',
+    "Veteran's Benefits",
+    'Retirement Fund (401), IRA',
+    'Annuities',
+    'Pension Statement',
+    'Checking Account Statement',
+    'Savings Account Statement',
+    'Mutual Fund Statement',
+    'Certificate Deposits (CD)',
+    'Stocks / Bonds',
 ]
 
 
 class IncomeSource(models.Model):
     client = models.ForeignKey(Client)
-    source = models.CharField(choices=SOURCE_CHOICES, max_length=1)
-    category = models.CharField(choices=INCOME_CHOICES, max_length=3)
+    source = models.CharField(choices=zip(SOURCE_CHOICES, SOURCE_CHOICES), max_length=255)
+    category = models.CharField(choices=zip(INCOME_CHOICES, INCOME_CHOICES), max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
