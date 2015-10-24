@@ -1,1 +1,1 @@
-web: gunicorn adapt.wsgi --log-file -
+web: gunicorn --reload adapt.wsgi --log-file -
