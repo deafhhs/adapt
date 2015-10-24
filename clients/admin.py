@@ -78,6 +78,12 @@ class ClientIncomeInlineAdmin(admin.TabularInline):
     extra = 1
 
 
+class MeetingLogInlineAdmin(admin.TabularInline):
+    model = MeetingLog
+    can_delete = True
+    extra = 1
+
+
 class ClientAdmin(ImportExportModelAdmin):
     resource_class = ClientResource
     list_display = ('first_name', 'last_name', 'intake_date', 'hearing_loss', 'audiologist')  # TODO: cost share
@@ -95,7 +101,7 @@ class ClientAdmin(ImportExportModelAdmin):
             )
         },
     }
-    inlines = (ClientIncomeInlineAdmin,)
+    inlines = (ClientIncomeInlineAdmin,MeetingLogInlineAdmin)
 
 class MeetingLogAdmin(ImportExportModelAdmin):
     resource_class = MeetingLogResource
