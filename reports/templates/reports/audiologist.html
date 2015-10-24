@@ -1,11 +1,44 @@
 {% extends "reports/report.html" %}
 
 {% block content %}
-<ul>
+<style scoped>
+table {
+    border-collapse: collapse;
+}
+tr {
+    border: thin solid black;
+}
+th, td {
+    padding: 0.2em;
+}
+tbody th {
+    text-align: left;
+}
+tr.odd {
+    background: silver;
+}
+</style>
+<table>
+    <caption><h2>{{ month }}, {{ year }}</h2></caption>
+    <thead>
+        <tr>
+            <th>Audiologist</th>
+            <th>Allowed</th>
+            <th>Clients</th>
+        </tr>
+    </thead>
+    <tbody>
 {% for audiologist, clients in auds %}
-	<li>{{ audiologist.name }}:
-	{% for client in clients %}{{ client.first_name }} {{ client.last_name }}, {% endfor %}
-	</li>
+    <tr class="{% cycle 'odd' 'even' %}">
+        <th>{{ audiologist.name }}</th>
+        <td>{{ audiologist.allowed }}</td>
+        <td>
+        {% for client in clients %}
+            {{ client.first_name }} {{ client.last_name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+        </td>
+    </tr>
 {% endfor %}
-</ul>
+    </tbody>
+</table>
 {% endblock %}

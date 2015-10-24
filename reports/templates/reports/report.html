@@ -1,18 +1,31 @@
-<style>
-@media print {
-    #knobs {
-        display: none;
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Report: {{ report.name }}</title>
+
+    <style>
+    @media print {
+        #knobs {
+            display: none;
+        }
     }
-}
-</style>
+
+    #knobs li {
+        display: inline;
+    }
+    </style>
+</head>
+<body>
 <h1>{{ report.name }}</h1>
 
-<div id="knobs">
+<fieldset id="knobs">
+    <legend>Options</legend>
     <form method="get">
-        {{ report.as_ul }}
-        <input type="submit" value="Submit" />
+            {{ report.as_ul }}
+            <input type="submit" value="Update" />
     </form>
-</div>
+</fieldset>
 
-{% block content %}
-{% endblock %}
+{% block content %}{% endblock %}
+</body>
+</html

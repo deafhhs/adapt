@@ -50,6 +50,7 @@ class Report(forms.Form, metaclass=ReportMeta):
 # Actual Reports #
 ##################
 import datetime
+import calendar
 from clients.models import Client, Audiologist
 
 class AudiologistReport(Report, name='Audiologist List', template='audiologist.html'):
@@ -57,8 +58,10 @@ class AudiologistReport(Report, name='Audiologist List', template='audiologist.h
     month = forms.IntegerField(label='Month', min_value=1, max_value=12, required=False)
 
     def clean(self):
-        if hasattr(self, 'year') ^ hasattr(self, 'month'): # Must have Both or Neither 
+        data = super().clean()
+        if bool(data.get('year')) != bool(data.get('month')):
             raise ValidationError("Must give both Month and Year, or neither.")
+        return data
 
     def report(self):
         today = datetime.date.today()
@@ -71,7 +74,7 @@ class AudiologistReport(Report, name='Audiologist List', template='audiologist.h
             audiologist_referral_date__month=month
         ).order_by('last_name', 'first_name')
 
-        auds = Audiologist.objects
+        auds = Audiologist.objects.filter(current=True)
 
         cross = {}
         for c in clients:
@@ -82,5 +85,7 @@ class AudiologistReport(Report, name='Audiologist List', template='audiologist.h
         data = [(a, sorted(cross.get(a, []))) for a in Audiologist.objects.order_by('name')]
 
         return {
+            'year': year,
+            'month': calendar.month_name[month],
             'auds': data
         }
