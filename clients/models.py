@@ -29,7 +29,7 @@ class Client(models.Model):
 
     spouse = models.CharField(null=True, blank=True, max_length=128)
 
-    is_veteran = models.BooleanField(default=True)
+    is_veteran = models.BooleanField(default=False)
     live_alone = models.BooleanField()
     family_size = models.PositiveSmallIntegerField(default=1)
 
