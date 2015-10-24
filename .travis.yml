@@ -4,7 +4,8 @@ python:
 install: "pip install -r requirements.txt"
 script: python manage.py test
 notifications:
-  slack: grgivecamp:MnNow0ucpJASg2ybACjIskCD
+  slack:
+    rooms: grgivecamp:MnNow0ucpJASg2ybACjIskCD
     on_success: never
     on_failure: always
     on_start: never
