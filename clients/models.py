@@ -31,12 +31,11 @@ class Audiologist(models.Model):
     allowed = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Client(models.Model):
-    audiologist = models.ForeignKey(Audiologist, limit_choices_to={'current': True})
-    audiologist_referral_date = models.DateField(null=True)
-    audiologist_appointment_date = models.DateField(null=True)
-
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
@@ -84,6 +83,10 @@ class Client(models.Model):
     signed_confidentiality_policy = models.BooleanField()
     signed_gross_annual_income = models.BooleanField()
     signed_client_responsibility_fees = models.BooleanField()
+
+    audiologist = models.ForeignKey(Audiologist, limit_choices_to={'current': True})
+    audiologist_referral_date = models.DateField(null=True)
+    audiologist_appointment_date = models.DateField(null=True)
 
 
 class Provider(models.Model):
