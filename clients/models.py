@@ -4,11 +4,24 @@ import localflavor.us.models as lfmodels
 GENDER_CHOICES = [
     ('M', 'Male'),
     ('F', 'Female'),
-    ('O', 'Other'),
+    ('O', 'Other')
 ]
 
 RACE_CHOICES = [
-    
+    ('AA', 'Afro. Amer.'),
+    ('Al', 'Aleut'),
+    ('As', 'Asian'),
+    ('Es', 'Eskimo'),
+    ('PI', 'Pac. Islander'),
+    ('Wh', 'White'),
+    ('O' , 'Other')
+]
+
+LOSS_CHOICES = [
+    (1, 'Mild'),
+    (2, 'Medium'),
+    (3, 'Severe'),
+    (4, 'Profound')
 ]
 
 class Client(models.Model):
@@ -23,6 +36,7 @@ class Client(models.Model):
     city = models.CharField(null=True, blank=True, max_length=64)
     state = lfmodels.USPostalCodeField(null=True, blank=True, default='MI')
     zip_code = lfmodels.USZipCodeField(null=True, blank=True)
+    deliverable = models.BooleanField(default=True)
 
     email = models.EmailField(null=True, blank=True)
     phone = lfmodels.PhoneNumberField(null=True, blank=True)
@@ -36,6 +50,16 @@ class Client(models.Model):
     emergency_contact = models.CharField(null=True, blank=True, max_length=128)
     emergency_phone = lfmodels.PhoneNumberField(null=True, blank=True)
 
-    race = models.CharField(choices=RACE_CHOICES, max_length=32)
+    race = models.CharField(choices=RACE_CHOICES, max_length=2)
     is_hispanic = models.BooleanField()
     additional_races = models.CharField(max_length=256)
+
+    referrer = models.CharField(null=True, blank=True, max_length=256)
+
+    hearing_loss = models.PositiveSmallIntegerField(choices=LOSS_CHOICES)
+
+    aids_requested_left = models.BooleanField()
+    aids_requested_right = models.BooleanField()
+    equipment_requested = models.BooleanField()
+
+    equipment_borrowed = models.TextField(blank=True)
