@@ -44,6 +44,21 @@ class AudiologistResource(resources.ModelResource):
         export_order = ('name', 'allowed', 'current', 'notes')
 
 
+class Provider(models.Model):
+    name = models.CharField(max_length=32)
+    notes = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class ProviderResource(resources.ModelResource):
+    class Meta:
+        model = Provider
+        exclude = ('id',)
+        export_order = ('name',)
+
+
 class Client(models.Model):
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
@@ -88,7 +103,7 @@ class Client(models.Model):
 
     equipment_borrowed = models.TextField(blank=True)
 
-    provider = models.ForeignKey('Provider', blank=True, null=True)
+    provider = models.ForeignKey(Provider, blank=True, null=True)
     audient_id = models.CharField(blank=True, null=True, max_length=16)
     provider_auth_sent = models.DateField(blank=True, null=True)
     provider_auth_recv = models.DateField(blank=True, null=True)
@@ -116,22 +131,22 @@ class Client(models.Model):
 class ClientResource(resources.ModelResource):
     class Meta:
         model = Client
-        exclude = ('id',)
-
-
-class Provider(models.Model):
-    name = models.CharField(max_length=32)
-    notes = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.name
-
-
-class ProviderResource(resources.ModelResource):
-    class Meta:
-        model = Provider
-        exclude = ('id',)
-        export_order = ('name',)
+        fields = ('first_name', 'last_name', 'gender', 'date_of_birth',
+                  'date_of_death', 'intake_date', 'address', 'city', 'state',
+                  'zip_code', 'deliverable', 'email', 'phone', 'spouse',
+                  'is_veteran', 'lives_alone', 'family_size',
+                  'emergency_contact', 'emergency_phone', 'race', 'is_hispanic',
+                  'additional_races', 'referrer', 'hearing_loss',
+                  'aids_requested_left', 'aids_requested_right',
+                  'equipment_requested', 'cost_share_approval', 'cost_share',
+                  'equipment_borrowed', 'provider__name', 'audient_id',
+                  'provider_auth_sent', 'provider_auth_recv', 'update_meeting',
+                  'renewal', 'notes', 'signed_client_intake',
+                  'signed_disclosure_authorization',
+                  'signed_confidentiality_policy', 'signed_gross_annual_income',
+                  'signed_client_responsibility_fees', 'audiologist__name',
+                  'audiologist_referral_date', 'audiologist_appointment_date',
+                  'audiologist_invoiced_date')
 
 
 SOURCE_CHOICES = [
