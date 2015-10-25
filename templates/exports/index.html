@@ -12,15 +12,23 @@
 {% endblock %}
 
 {% block content %}
-<h1>Reports</h1>
+<h1>Exports</h1>
 
 <section>
-<h2><a href="registrations">KCSM Registrations</a></h2>
+<h2>KCSM Registrations</h2>
 <p>lorem ipsum ui op</p>
+<form action="registrations">
+	<input type="submit" value="Generate">
+</form>
 </section>
 
 <section>
-<h2><a href="units">KCSM Units</a></h2>
+<h2>KCSM Units</h2>
 <p>lorem ipsum ui op</p>
+<form action="units">
+	<label title="Inclusive">Start: <input type=date name=start></label>
+	<label title="Inclusive">End: <input type=date name=end></label>
+	<input type="submit" value="Generate">
+</form>
 </section>
 {% endblock %}

@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.utils.timezone import now
 from import_export import resources
