@@ -8,6 +8,7 @@ def adminctx(**kw):
         'site_title': site.site_title,
         'site_header': site.site_header,
         'site_url': site.site_url,
+        'has_permission': True,
     }
     rv.update(kw)
     return rv
