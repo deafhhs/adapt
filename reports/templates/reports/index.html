@@ -2,6 +2,13 @@
 {% load i18n %}
 {% load admin_static %}
 
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">Home</a>
+&rsaquo; Reports
+</div>
+{% endblock %}
+
 {% block content %}
 <ul>
 {% for report in reports %}

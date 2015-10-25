@@ -51,8 +51,14 @@
     }
     </style>
 {% endblock %}
-</head>
-<body>
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">Home</a>
+&rsaquo; <a href="/reports/">Reports</a>
+&rsaquo; {{title}}
+</div>
+{% endblock %}
 
 {% block content %}
 {% if report.fields %}
