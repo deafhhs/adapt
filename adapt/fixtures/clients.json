@@ -57,7 +57,8 @@
       "multiracial_white": false,
       "multiracial_black": false,
       "multiracial_asian": false,
-      "multiracial_amind": false
+      "multiracial_amind": false,
+      "non_kcsm": false
     },
     "pk": 1
   },
@@ -119,7 +120,8 @@
       "multiracial_white": false,
       "multiracial_black": false,
       "multiracial_asian": false,
-      "multiracial_amind": false
+      "multiracial_amind": false,
+      "non_kcsm": false
     },
     "pk": 2
   },
@@ -181,7 +183,8 @@
       "multiracial_white": false,
       "multiracial_black": false,
       "multiracial_asian": false,
-      "multiracial_amind": false
+      "multiracial_amind": false,
+      "non_kcsm": false
     },
     "pk": 3
   }
