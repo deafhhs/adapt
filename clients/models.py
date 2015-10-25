@@ -80,6 +80,7 @@ class Client(models.Model):
     intake_date = models.DateField(default=now)
     intake_staff = models.ForeignKey(User, related_name='+')
     data_entry_staff = models.ForeignKey(User, related_name='+')
+    last_updated = models.DateField(auto_now=True, editable=True)
 
     address = models.TextField()
     city = models.CharField(max_length=64)
@@ -257,6 +258,13 @@ class IncomeSource(models.Model):
 
     def __str__(self):
         return '{} {} ${}'.format(self.source, self.category, self.amount)
+
+    def save(self):
+        super().save()
+
+        # Touch the parent
+        self.client.last_updated = datetime.date.today()
+        self.client.save()
 
 
 class Settings(SingletonModel):
