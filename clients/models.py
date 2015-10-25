@@ -70,6 +70,7 @@ class ProviderResource(resources.ModelResource):
 
 
 class Client(models.Model):
+    napis_id = models.CharField(max_length=11, null=True, blank=True)
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     gender = models.CharField(max_length=10, choices=zip(GENDER_CHOICES, GENDER_CHOICES))
