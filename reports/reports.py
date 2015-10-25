@@ -124,6 +124,7 @@ class AssignmentReport(Report, name='Audiologist Assignments List', template='as
             'invoice_sum': sum(c.audiologist_invoiced_amount or 0 for c in clients),
         }
 
+
 class WaitlistReport(Report, name='Waiting List', template='waitlist.html'):
     def report(self):
         clients = Client.objects.filter(audiologist__isnull=True).order_by('intake_date')
@@ -131,6 +132,7 @@ class WaitlistReport(Report, name='Waiting List', template='waitlist.html'):
         return {
             'clients': clients
         }
+
 
 class ApprovalReport(Report, name='Client Approval List', template='approvelist.html'):
     def report(self):
@@ -142,6 +144,7 @@ class ApprovalReport(Report, name='Client Approval List', template='approvelist.
         return {
             'clients': clients
         }
+
 
 class StatsHelper(list):
     """
@@ -167,6 +170,7 @@ class StatsHelper(list):
 
     def avg(self):
         return sum(self) / len(self)
+
 
 class NiftyReport(Report, name='Nifty Report', template='nifty.html'):
     year = forms.IntegerField(label='Year', min_value=2000, max_value=2050, required=False)
@@ -218,8 +222,16 @@ class NiftyReport(Report, name='Nifty Report', template='nifty.html'):
             'invoice': invoice,
         }
 
+
 class MailReport(Report, name='Mailing List', template='mail.html'):
     def report(self):
         return {
             'clients': Client.objects.filter(deliverable=True, date_of_death__isnull=True)
+        }
+
+
+class EmailReport(Report, name='Email List', template='email.html'):
+    def report(self):
+        return {
+            'clients': Client.objects.filter(email__isnull=False, date_of_death__isnull=True)
         }

@@ -1,0 +1,20 @@
+{% extends "reports/report.html" %}
+
+{% block report %}
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for client in clients %}
+    <tr class="{% cycle 'odd' 'even' %}">
+        <th><a href="{{client.get_absolute_url}}">{{ client }}</a></th>
+        <td><tt>{{ client.email }}</tt></td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}
