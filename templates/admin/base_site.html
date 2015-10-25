@@ -96,8 +96,11 @@ Ideally we'd just extend that file but we can't since this current file has the 
     if (typeof django !== 'undefined' && django.jQuery) {
         (function ($) {
             $(document).ready(function () {
-                var income_inputs_sel = '.dynamic-incomesource_set .field-amount input';
 
+                $('#id_cost_share').parent().append('%')
+
+
+                var income_inputs_sel = '.dynamic-incomesource_set .field-amount input';
                 function compute_income_total() {
                     var income_total = 0;
                     $(income_inputs_sel).each(function () {
@@ -123,7 +126,6 @@ Ideally we'd just extend that file but we can't since this current file has the 
                     $destination.append('<span class="income_total"><strong>Total: $'
                                         + income_total + '</strong>' + less_than + '</span>');
                 }
-
                 compute_income_total();
                 $('#incomesource_set-group').on('change', income_inputs_sel, compute_income_total);
             });
