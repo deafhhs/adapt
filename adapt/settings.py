@@ -132,6 +132,7 @@ STATICFILES_DIRS = (
 if os.getenv('DEV'):
     DEBUG = True
 else:
+    DEBUG = False
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
@@ -139,3 +140,12 @@ else:
 
 LOGIN_URL = '/admin/login/'
 LOGOUT_URL = '/admin/logout/'
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = os.getenv('EMAIL_HOST')
+    EMAIL_PORT = int(os.getenv('EMAIL_PORT') or 0)
+    EMAIL_HOST_USER = os.getenv('EMAIL_USER')
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
