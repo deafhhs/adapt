@@ -3,7 +3,11 @@
     "pk": 1,
     "fields": {
       "income_level_1": 11770,
-      "income_level_2": 23540
+      "income_level_2": 23540,
+      "AAA_VendorID": 38,
+      "AAA_VendorSite": 0,
+      "AAA_Region": 8,
+      "AAA_County": 41
     },
     "model": "clients.settings"
   }
