@@ -107,11 +107,12 @@ class MeetingLogInlineAdmin(admin.TabularInline):
 class ClientAdmin(ImportExportModelAdmin):
     resource_class = ClientResource
     list_display = ('last_name', 'first_name', 'intake_date', 'hearing_loss', 'audiologist', 'cost_share', 'cost_share_approval')
+    list_display = ('last_name', 'first_name', 'intake_date', 'last_updated', 'hearing_loss', 'audiologist', 'cost_share', 'cost_share_approval')
     list_display_links = ('last_name', 'first_name',)
     list_filter = ('provider', 'audiologist', 'family_size', 'deliverable', 'hearing_loss',
                    'equipment_requested', 'adaptive_equipment', 'hearing_aid_assistance',
                    'quota_client', 'non_kcsm',
-                   'intake_staff', 'data_entry_staff')
+                   'intake_staff', 'data_entry_staff', 'last_updated')
     ordering = ('-intake_date',)
     date_hierarchy = 'intake_date'
     search_fields = [f.name for f in Client._meta.local_fields if isinstance(f, (CharField, TextField))]
@@ -121,6 +122,69 @@ class ClientAdmin(ImportExportModelAdmin):
         },
     }
     inlines = (ClientIncomeInlineAdmin,MeetingLogInlineAdmin)
+
+    readonly_fields = ('id', 'last_updated')
+    fieldsets = (
+        (None, {
+            'fields': (
+                'id', 'napis_id',
+            )
+        }),
+        ('Personal Info', {
+            'fields': (
+                'first_name', 'last_name', 'gender', 'date_of_birth', 'date_of_death',
+                'is_veteran', 'lives_alone', 'spouse', 'family_size',
+            )
+        }),
+        ('Contact', {
+            'fields': (
+                'address', 'city', 'zip_code', 'deliverable',
+                'email', 'phone',
+                'emergency_contact',
+                'emergency_phone',
+            )
+        }),
+        ('Notes', {
+            'fields': (
+                'notes',
+            )
+        }),
+        ('Demographics', {
+            'fields': (
+                'race', 'is_hispanic',
+                'multiracial', 'multiracial_white', 'multiracial_black', 'multiracial_asian', 'multiracial_amind',
+            )
+        }),
+        ('Assistance', {
+            'fields': (
+                'hearing_loss', 'aids_requested_left', 'aids_requested_right', 'equipment_requested',
+                'hearing_assistance', 'adaptive_equipment', 'hearing_aid_assistance',
+                'equipment_borrowed',
+            )
+        }),
+        ('Additional Forms', {
+            'fields': (
+                'proof_of_age', 'signed_client_intake', 'signed_disclosure_authorization',
+                'signed_confidentiality_policy', 'signed_gross_annual_income',
+                'signed_client_responsibility_fees'
+            )
+        }),
+        ('DHHS', {
+            'fields': (
+                'intake_date', 'intake_staff', 'data_entry_staff', 'last_updated', 'referrer',
+                'update_meeting',
+                'cost_share_approval', 'cost_share',
+                'quota_client', 'non_kcsm',
+                'provider', 'audient_id', 'provider_auth_requested', 'provider_auth_received',
+            )
+        }),
+        ('Audiologist', {
+            'fields': (
+                'audiologist', 'audiologist_referral_date', 'audiologist_appointment_date', 
+                'audiologist_invoiced_date', 'audiologist_invoiced_amount',
+            )
+        }),
+    )
 
 class MeetingLogAdmin(ImportExportModelAdmin):
     resource_class = MeetingLogResource
