@@ -1,0 +1,26 @@
+{% extends "reports/report.html" %}
+
+{% block report %}
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>ZIP Code</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for client in clients %}
+    <tr class="{% cycle 'odd' 'even' %}">
+        <th><a href="{{client.get_absolute_url}}">{{ client }}</a></th>
+        <td>{{ client.address|linebreaksbr }}</td>
+        <td>{{ client.city }}</td>
+        <td>{{ client.state }}</td>
+        <td>{{ client.zip_code }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock %}

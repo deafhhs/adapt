@@ -217,3 +217,9 @@ class NiftyReport(Report, name='Nifty Report', template='nifty.html'):
             'aid': aid,
             'invoice': invoice,
         }
+
+class MailReport(Report, name='Mailing List', template='mail.html'):
+    def report(self):
+        return {
+            'clients': Client.objects.filter(deliverable=True, date_of_death__isnull=True)
+        }
