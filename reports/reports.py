@@ -139,6 +139,8 @@ class ApprovalReport(Report, name='Client Approval List', template='approvelist.
         clients = Client.objects.filter(
             Q(cost_share_approval__isnull=True) |
             Q(cost_share__isnull=True)
+        ).filter(
+            non_kcsm=True,
         ).order_by('intake_date')
 
         return {
