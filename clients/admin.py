@@ -205,7 +205,7 @@ class ClientAdmin(ImportExportModelAdmin):
         }),
         ('Contact', {
             'fields': (
-                'address', 'city', 'state', 'zip_code', 'deliverable',
+                'address', 'city', 'county', 'state', 'zip_code', 'deliverable',
                 'email', 'phone',
                 'emergency_contact',
                 'emergency_phone',
