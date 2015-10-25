@@ -13,12 +13,15 @@ Ideally we'd just extend that file but we can't since this current file has the 
 
 {% block nav-global %}
     {{ block.super }}
-    <div id="reports_link"><a href="/reports/">Reports</a></div>
+    <div id="topnav">
+        <div id="reports_link"><a href="/reports/">Reports</a></div>
+        <div id="exports_link"><a href="/exports/">Exports</a></div>
+    </div>
 {% endblock %}
 
 {% block extrahead %}
     <style>
-        #reports_link {
+        #topnav > div {
             float: right;
             padding: 1.2em 10px;
             font-size: 11px;
