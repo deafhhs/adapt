@@ -35,7 +35,8 @@ LOSS_CHOICES = [
 class Audiologist(models.Model):
     current = models.BooleanField(default=True)
     name = models.CharField(max_length=255)
-    allowed = models.TextField(null=True, blank=True)
+    allowed = models.TextField(null=True, blank=True,
+                               help_text='How many clients are generally accepted and which provider(s)')
     notes = models.TextField(null=True, blank=True)
 
     def __str__(self):
@@ -86,30 +87,31 @@ class Client(models.Model):
     city = models.CharField(max_length=64)
     state = lfmodels.USPostalCodeField(default='MI')
     zip_code = lfmodels.USZipCodeField()
-    deliverable = models.BooleanField(default=True)
+    deliverable = models.BooleanField(default=True, verbose_name='Can accept mail')
 
     email = models.EmailField(null=True, blank=True)
-    phone = lfmodels.PhoneNumberField(null=True, blank=True)
+    phone = lfmodels.PhoneNumberField(null=True, blank=True, verbose_name='Phone number')
 
     spouse = models.CharField(null=True, blank=True, max_length=128)
 
-    is_veteran = models.BooleanField(default=False)
+    is_veteran = models.BooleanField(default=False, verbose_name='Veteran')
     lives_alone = models.BooleanField()
-    family_size = models.PositiveSmallIntegerField(default=1)
+    family_size = models.PositiveSmallIntegerField(default=1, help_text='Including client')
 
-    emergency_contact = models.CharField(null=True, blank=True, max_length=128)
-    emergency_phone = lfmodels.PhoneNumberField(null=True, blank=True)
+    emergency_contact = models.CharField(null=True, blank=True, max_length=128, verbose_name='Emergency contact name')
+    emergency_phone = lfmodels.PhoneNumberField(null=True, blank=True, verbose_name='Emergency contact phone')
 
     race = models.CharField(choices=zip(RACE_CHOICES, RACE_CHOICES), max_length=255)
-    is_hispanic = models.BooleanField()
-    additional_races = models.CharField(max_length=256, null=True, blank=True)
+    is_hispanic = models.BooleanField(verbose_name='Is Hispanic')
+    additional_races = models.CharField(max_length=256, null=True, blank=True,
+                                        help_text='If multi-racial, list additional race(s) separated by commas')
 
     referrer = models.CharField(null=True, blank=True, max_length=256)
 
     hearing_loss = models.CharField(choices=zip(LOSS_CHOICES, LOSS_CHOICES), max_length=255)
 
-    aids_requested_left = models.BooleanField()
-    aids_requested_right = models.BooleanField()
+    aids_requested_left = models.BooleanField(verbose_name='Hearing aid requested (left)')
+    aids_requested_right = models.BooleanField(verbose_name='Hearing aid requested (right)')
     equipment_requested = models.BooleanField()
 
     ''' SERVICES PROVIDED '''
@@ -117,16 +119,17 @@ class Client(models.Model):
     adaptive_equipment = models.BooleanField()
     hearing_aid_assistance = models.BooleanField()
 
-    cost_share_approval = models.DateField(blank=True, null=True)
+    cost_share_approval = models.DateField(blank=True, null=True, verbose_name='Cost share approval date')
     cost_share = models.PositiveIntegerField(blank=True, null=True,
-                                     validators=[MinValueValidator(0), MaxValueValidator(100)])
+                                             validators=[MinValueValidator(0), MaxValueValidator(100)],
+                                             verbose_name='Cost share (%)')
 
     equipment_borrowed = models.TextField(blank=True)
 
     provider = models.ForeignKey(Provider, blank=True, null=True)
     quota_client = models.BooleanField()
-    update_meeting = models.DateField(blank=True, null=True)
-    audient_id = models.CharField(blank=True, null=True, max_length=16)
+    update_meeting = models.DateField(blank=True, null=True, verbose_name='Update meeting date')
+    audient_id = models.CharField(blank=True, null=True, max_length=16, verbose_name='Audient ID')
     provider_auth_requested = models.DateField(blank=True, null=True)
     provider_auth_received = models.DateField(blank=True, null=True)
 
@@ -144,7 +147,8 @@ class Client(models.Model):
     audiologist_appointment_date = models.DateField(null=True, blank=True)
     audiologist_invoiced_date = models.DateField(blank=True, null=True)
     audiologist_invoiced_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True,
-                                                      validators=[MinValueValidator(0)])
+                                                      validators=[MinValueValidator(0)],
+                                                      verbose_name='Audiologist invoiced amount ($)')
 
     def __str__(self):
         return '{}, {}'.format(self.last_name, self.first_name)
@@ -186,10 +190,10 @@ class MeetingLog(models.Model):
 
     contact_date = models.DateField()
 
-    consultation_time = models.PositiveIntegerField(default=15)
-    paperwork_time = models.PositiveIntegerField(default=15)
+    consultation_time = models.PositiveIntegerField(default=15, verbose_name='Consulation time (minutes)')
+    paperwork_time = models.PositiveIntegerField(default=15, verbose_name='Paperwork time (minutes)')
 
-    results = models.TextField(blank=True)
+    results = models.TextField(blank=True, help_text='Problems, solutions, progress, equipment, etc.')
 
     user = models.ForeignKey(User)
 
