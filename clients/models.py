@@ -226,6 +226,12 @@ class IncomeSource(models.Model):
     category = models.CharField(choices=zip(INCOME_CHOICES, INCOME_CHOICES), max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
+    @property
+    def annual(self):
+        # TODO: Some types are monthly, some are annual. See #12
+        return self.amount
+    
+
     class Meta:
         unique_together = ('client', 'source', 'category')
 

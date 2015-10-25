@@ -5,7 +5,7 @@
 <div class="printpage">
     <h2><a href="{{client.get_absolute_url}}">{{ client }}</a>: {{ client.date_of_birth }}</h2>
     <table>
-        <caption>Income Summary</caption>
+        <caption>Annual Income</caption>
         <thead>
             <tr>
                 <th>Who</th>
@@ -17,7 +17,7 @@
             <tr class="{% cycle 'odd' 'even' %}">
                 <th>{{ incsrc.source }}</th>
                 <th>{{ incsrc.category }}</th>
-                <td>{{ incsrc.amount }}</td>
+                <td>{{ incsrc.annual }}</td>
         </tr>
         {% endfor %}
         </tbody>
