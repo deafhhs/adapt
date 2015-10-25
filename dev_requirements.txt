@@ -9,3 +9,4 @@ django-localflavor
 requests
 django-solo
 django-axes
+pytz
