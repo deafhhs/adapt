@@ -1,6 +1,5 @@
 import csv
 import datetime
-from collections import OrderedDict
 
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -8,35 +7,35 @@ from django.contrib.auth.decorators import login_required
 
 def set_registration_row():
     fields = [
-        ('month', "TODO",), # TODO
+        ('month', "TODO",), # TODO (July 2015)
         ('ssn', '',),
-        ('vendorid', "TODO",), # TODO
-        ('region', "TODO",), # TODO
-        ('intake_date', "TODO",), # TODO
-        ('client_last_name', "TODO",), # TODO
-        ('first_name', "TODO",), # TODO
-        ('mid_init', "TODO",), # TODO
-        ('client_address', "TODO",), # TODO
-        ('city', "TODO",), # TODO
-        ('state', "TODO",), # TODO
-        ('zip_code', "TODO",), # TODO
-        ('county', "TODO",), # TODO
-        ('township', "TODO",), # TODO
-        ('phone', "TODO",), # TODO
-        ('date_of_birth', "TODO",), # TODO
-        ('gender', "TODO",), # TODO
-        ('lives_alone', "TODO",), # TODO
-        ('income_status', "TODO",), # TODO
-        ('below_poverty', "TODO",), # TODO
-        ('race', "TODO",), # TODO
-        ('multi_racial', "TODO",), # TODO
-        ('mrwhite', "TODO",), # TODO
-        ('mrblack', "TODO",), # TODO
-        ('mrasian', "TODO",), # TODO
-        ('mramind', "TODO",), # TODO
-        ('hispanic', "TODO",), # TODO
-        ('high_nutritional_risk', "TODO",), # TODO
-        ('veteran', "TODO",), # TODO
+        ('vendorid', "TODO",), # TODO (singleton)
+        ('region', "TODO",), # TODO (singleton)
+        ('intake_date', "TODO",), # TODO (client)
+        ('client_last_name', "TODO",), # TODO (client)
+        ('first_name', "TODO",), # TODO (client)
+        ('mid_init', '',),
+        ('client_address', "TODO",), # TODO (client)
+        ('city', "TODO",), # TODO (client)
+        ('state', "TODO",), # TODO (client)
+        ('zip_code', "TODO",), # TODO (client)
+        ('county', "TODO",), # TODO (singleton)
+        ('township', '',),
+        ('phone', "TODO",), # TODO (client)
+        ('date_of_birth', "TODO",), # TODO (client)
+        ('gender', "TODO",), # TODO (client)
+        ('lives_alone', "TODO",), # TODO (client)
+        ('income_status', "TODO",), # TODO (client)
+        ('below_poverty', "TODO",), # TODO (client)
+        ('race', "TODO",), # TODO (client)
+        ('multi_racial', "TODO",), # TODO (client)
+        ('mrwhite', "TODO",), # TODO (client)
+        ('mrblack', "TODO",), # TODO (client)
+        ('mrasian', "TODO",), # TODO (client)
+        ('mramind', "TODO",), # TODO (client)
+        ('hispanic', "TODO",), # TODO (client)
+        ('high_nutritional_risk', "TODO",), # TODO (client)
+        ('veteran', "TODO",), # TODO (client)
         ('arthritis', '',),
         ('cancer', '',),
         ('diabetes', '',),
@@ -92,9 +91,9 @@ def set_registration_row():
         ('guardianship', 'No',),
         ('health_education', 'No',),
         ('health_education_community', 'No',),
-        ('hearingaidassist', "TODO",), # TODO
+        ('hearingaidassist', "TODO",), # TODO (client)
         ('hearing_services___group', 'No',),
-        ('hearing_services___individual', "TODO",), # TODO
+        ('hearing_services___individual', "TODO",), # TODO (client)
         ('home_chore', 'No',),
         ('home_financial_services', 'No',),
         ('home_modifications_assmt', 'No',),
@@ -125,7 +124,7 @@ def set_registration_row():
         ('weatherization', 'No',),
         ('ppc', 'No',),
         ('phone_reassurance', 'No',),
-        ('adaptive_equipment', 'TODO',), # TODO
+        ('adaptive_equipment', 'TODO',), # TODO (client)
         ('cglastname', '',),
         ('cgfirstname', '',),
         ('cgss', '',),
@@ -175,11 +174,11 @@ def set_registration_row():
 def set_units_row():
     fields = [
         ('recordtype', "I",),
-        ('vendorid', "TODO",), # TODO
-        ('vendorsite', "TODO",), # TODO
-        ('regionid', "TODO",), # TODO
-        ('service_period', "TODO"), # Use last day of service period (Date MM/DD/YYYY) # TODO
-        ('ssn', "TODO",), # AAAWM provided ID # TODO
+        ('vendorid', "TODO",), # TODO (singleton)
+        ('vendorsite', "TODO",), # TODO (singleton)
+        ('regionid', "TODO",), # TODO (singleton)
+        ('service_period', "TODO"), # TODO (Use last day of service period (Date MM/DD/YYYY)
+        ('ssn', "TODO",), # TODO (client, AAAWM provided ID)
         ('adc_units', '0.00',),
         ('assessment_cmunits', '0.00',),
         ('assessment_hsunits', '0.00',),
@@ -187,7 +186,7 @@ def set_units_row():
         ('counselingunits', '0.00',),
         ('friendlyvisitorunits', '0.00',),
         ('guardianshipunits', '0.00',),
-        ('hearingsrvindunits', "TODO",), # TODO
+        ('hearingsrvindunits', "TODO",), # TODO (client)
         ('independentlivingunits', '0.00',),
         ('medmanagementunits', '0.00',),
         ('monthlymonitoringunits', '0.00',),
