@@ -6,6 +6,7 @@ from django.core.validators import MaxValueValidator
 from django.core.validators import MinValueValidator
 import localflavor.us.models as lfmodels
 from solo.models import SingletonModel
+import datetime
 
 
 GENDER_CHOICES = [
