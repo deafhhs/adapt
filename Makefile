@@ -20,6 +20,7 @@ load_fixtures:
 	python manage.py loaddata adapt/fixtures/providers.json
 	python manage.py loaddata adapt/fixtures/clients.json
 	python manage.py loaddata adapt/fixtures/settings.json
+	python manage.py loaddata adapt/fixtures/incomesource.json
 
 .PHONY: install
 install: clean migrate load_fixtures
