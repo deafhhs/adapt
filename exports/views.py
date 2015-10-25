@@ -1,4 +1,5 @@
 import csv
+from decimal import Decimal, ROUND_DOWN
 from datetime import datetime
 
 from django.http import HttpResponse
@@ -8,6 +9,7 @@ from django.db.models import Q
 
 from clients.models import Settings as AdaptSettings
 from clients.models import Client
+from clients.models import MeetingLog
 
 
 def set_registration_row(reg_client):
@@ -181,14 +183,22 @@ def set_registration_row(reg_client):
     return fields
 
 
-def set_units_row():
+def set_units_row(units_client, start_date, end_date):
+    adapt_settings = AdaptSettings.objects.first()
+    logs_for_client = MeetingLog.objects.all().filter(client=units_client)\
+                                              .filter(contact_date__range=(start_date, end_date))
+    minutes_for_client = 0
+    for alog in logs_for_client:
+        minutes_for_client += alog.consultation_time + alog.paperwork_time
+    units_for_client = Decimal(minutes_for_client / 60).quantize(Decimal('.01'), rounding=ROUND_DOWN)
+
     fields = [
         ('recordtype', "I",),
-        ('vendorid', "TODO",), # TODO (singleton)
-        ('vendorsite', "TODO",), # TODO (singleton)
-        ('regionid', "TODO",), # TODO (singleton)
-        ('service_period', "TODO"), # TODO (Use last day of service period (Date MM/DD/YYYY)
-        ('ssn', "TODO",), # TODO (client, AAAWM provided ID)
+        ('vendorid', adapt_settings.AAA_VendorID,),
+        ('vendorsite', adapt_settings.AAA_VendorSite,),
+        ('regionid', adapt_settings.AAA_Region,),
+        ('service_period', end_date.strftime('%m/%d/%Y')),
+        ('ssn', units_client.napis_id,),
         ('adc_units', '0.00',),
         ('assessment_cmunits', '0.00',),
         ('assessment_hsunits', '0.00',),
@@ -196,7 +206,7 @@ def set_units_row():
         ('counselingunits', '0.00',),
         ('friendlyvisitorunits', '0.00',),
         ('guardianshipunits', '0.00',),
-        ('hearingsrvindunits', "TODO",), # TODO (client)
+        ('hearingsrvindunits', units_for_client,),
         ('independentlivingunits', '0.00',),
         ('medmanagementunits', '0.00',),
         ('monthlymonitoringunits', '0.00',),
@@ -228,6 +238,7 @@ def generate_standard_filename(export_type):
 def bool_to_yes_no(val):
     return "Yes" if val else "No"
 
+
 def export_phone_format(phonenumber):
     if phonenumber:
         parts = phonenumber.split('-')
@@ -257,15 +268,25 @@ def registrations(request):
 @login_required
 def units(request):
     # Export of all pending registrations as CSV
+    start_date = datetime.strptime(request.GET['start'], '%Y-%m-%d')
+    end_date = datetime.strptime(request.GET['end'], '%Y-%m-%d')
+
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="' + \
                                       generate_standard_filename("UNITS") + '"'
-    data = [set_units_row(),]
+    units_clients = Client.objects.all().filter(quota_client=False)\
+                                        .filter(napis_id__isnull=False)\
+                                        .filter(county__exact='41')\
+                                        .exclude(napis_id__exact='')
+    data = []
+    for client in units_clients:
+        data.append(set_units_row(client, start_date, end_date))
     writer = csv.writer(response)
     for row in data:
         writer.writerow([field[1] for field in row])
 
     return response
+
 
 class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
