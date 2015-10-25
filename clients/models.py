@@ -80,7 +80,6 @@ class Client(models.Model):
     date_of_death = models.DateField(null=True, blank=True)
 
     intake_date = models.DateField(default=now)
-    renewal = models.BooleanField(default=False)
     intake_staff = models.ForeignKey(User, related_name='+')
     data_entry_staff = models.ForeignKey(User, related_name='+')
 
@@ -174,7 +173,7 @@ class ClientResource(resources.ModelResource):
           'equipment_requested', 'cost_share_approval', 'cost_share',
           'equipment_borrowed', 'provider__name', 'audient_id',
           'provider_auth_sent', 'provider_auth_recv', 'update_meeting',
-          'renewal', 'notes', 'signed_client_intake',
+          'notes', 'signed_client_intake',
           'signed_disclosure_authorization',
           'signed_confidentiality_policy', 'signed_gross_annual_income',
           'signed_client_responsibility_fees', 'audiologist__name',

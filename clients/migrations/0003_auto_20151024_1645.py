@@ -62,11 +62,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='client',
-            name='renewal',
-            field=models.DateField(null=True, blank=True),
-        ),
-        migrations.AddField(
-            model_name='client',
             name='update_meeting',
             field=models.DateField(null=True, blank=True),
         ),
