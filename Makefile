@@ -13,17 +13,20 @@ clean_db:
 migrate:
 	python manage.py migrate
 
-.PHONY: load_fixtures
-load_fixtures:
+.PHONY: load_fixtures_dev
+load_fixtures_dev: load_fixtures
 	python manage.py loaddata adapt/fixtures/auth.json
-	python manage.py loaddata adapt/fixtures/audiologists.json
-	python manage.py loaddata adapt/fixtures/providers.json
 	python manage.py loaddata adapt/fixtures/clients.json
-	python manage.py loaddata adapt/fixtures/settings.json
 	python manage.py loaddata adapt/fixtures/incomesource.json
 
+.PHONY: load_fixtures
+load_fixtures:
+	python manage.py loaddata adapt/fixtures/audiologists.json
+	python manage.py loaddata adapt/fixtures/providers.json
+	python manage.py loaddata adapt/fixtures/settings.json
+
 .PHONY: install
-install: clean migrate load_fixtures
+install: clean migrate load_fixtures_dev
 
 .PHONY: dev_requirements
 dev_requirements:
