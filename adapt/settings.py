@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'solo',
     'adapt',
     'clients',
+    'exports',
     'reports',
     'axes',
 )

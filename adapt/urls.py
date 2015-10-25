@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from django.conf import settings
+import exports.urls
 import reports.urls
 
 urlpatterns = [
@@ -27,6 +28,7 @@ urlpatterns = [
     url(r'^admin/locked/$', TemplateView.as_view(template_name=settings.AXES_LOCKOUT_TEMPLATE)),
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$', auth_views.password_reset_confirm, name='password_reset_confirm'),
     url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
+    url(r'^exports/', include(exports.urls)),
     url(r'^reports/', include(reports.urls)),
     url(r'^$', include(admin.site.urls)),
 ]
