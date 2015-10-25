@@ -80,7 +80,7 @@ class Client(models.Model):
     intake_date = models.DateField(default=now)
     intake_staff = models.ForeignKey(User, related_name='+')
     data_entry_staff = models.ForeignKey(User, related_name='+')
-    last_updated = models.DateField(auto_now=True, editable=True)
+    last_updated = models.DateField(auto_now=True)
 
     address = models.TextField()
     city = models.CharField(max_length=64)
@@ -117,7 +117,7 @@ class Client(models.Model):
     aids_requested_right = models.BooleanField(verbose_name='Hearing aid requested (right)')
     equipment_requested = models.BooleanField()
 
-    ''' SERVICES PROVIDED '''
+    ### SERVICES PROVIDED ###
     hearing_assistance = models.BooleanField()
     adaptive_equipment = models.BooleanField()
     hearing_aid_assistance = models.BooleanField()
