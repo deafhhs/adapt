@@ -160,18 +160,22 @@ class StatsHelper(list):
         return q1, q3
 
     def q1(self):
-        i, _ = self.qindexes()
-        return sorted(self)[i]
+        if self:
+            i, _ = self.qindexes()
+            return sorted(self)[i]
 
     def q2(self):
-        return statistics.median(self)
+        if self:
+            return statistics.median(self)
 
     def q3(self):
-        _, i = self.qindexes()
-        return sorted(self)[i]
+        if self:
+            _, i = self.qindexes()
+            return sorted(self)[i]
 
     def avg(self):
-        return sum(self) / len(self)
+        if self:
+            return sum(self) / len(self)
 
 
 class NiftyReport(Report, name='Nifty Report', template='nifty.html'):
