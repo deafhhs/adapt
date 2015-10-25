@@ -34,6 +34,12 @@ Ideally we'd just extend that file but we can't since this current file has the 
         .aligned label {
             width: 12em;
         }
+        .income_total {
+            margin-left:40%
+        }
+        .income_total strong {
+            margin-right:3em
+        }
         @media print {
             #header,
             #reports_link,
@@ -75,7 +81,9 @@ Ideally we'd just extend that file but we can't since this current file has the 
 
     var adapt = {
         income_level_1: {{ settings.income_level_1 }},
-        income_level_2: {{ settings.income_level_2 }}
+        income_level_2: {{ settings.income_level_2 }},
+        income_choices_monthly: {{ models.INCOME_CHOICES_MONTHLY|safe }},
+        income_choices_yearly: {{ models.INCOME_CHOICES_YEARLY|safe }}
     };
 
     if (typeof django !== 'undefined' && django.jQuery) {
@@ -86,12 +94,16 @@ Ideally we'd just extend that file but we can't since this current file has the 
                 function compute_income_total() {
                     var income_total = 0;
                     $(income_inputs_sel).each(function () {
+                        var $category = $('.field-category select', $(this).parent().parent());
                         if (this.value) {
-                            income_total += parseFloat(this.value);
+                            if (adapt.income_choices_monthly.indexOf($category.val()) !== -1) {
+                                income_total += parseFloat(this.value) * 12;
+                            } else {
+                                income_total += parseFloat(this.value);
+                            }
                         }
                     });
                     var $destination = $('.add-row:first td', $(income_inputs_sel).parents());
-                    $('.income_total', $destination).remove();  // any previous value
                     var less_than;
                     if (income_total < adapt.income_level_1) {
                         less_than = '< $' + adapt.income_level_1;
@@ -100,9 +112,9 @@ Ideally we'd just extend that file but we can't since this current file has the 
                     } else {
                         less_than = 'not low income';
                     }
-                    $destination.append(
-                            '<span class="income_total" style="margin-left:40%"><strong style="margin-right:3em">Total: $'
-                            + income_total + '</strong>' + less_than + '</span>');
+                    $('.income_total', $destination).remove();  // any previous value
+                    $destination.append('<span class="income_total"><strong>Total: $'
+                                        + income_total + '</strong>' + less_than + '</span>');
                 }
 
                 compute_income_total();

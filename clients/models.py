@@ -72,7 +72,6 @@ class ProviderResource(resources.ModelResource):
 
 
 class Client(models.Model):
-    # TODO: thresholds for income will change over time
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
     gender = models.CharField(max_length=10, choices=zip(GENDER_CHOICES, GENDER_CHOICES))
@@ -210,34 +209,41 @@ SOURCE_CHOICES = [
     'Other',
 ]
 
-INCOME_CHOICES = [
+INCOME_CHOICES_MONTHLY = [
     'Wages',
     'Social Security Statement',
-    'Social Security Disability (SSD)',
-    'Social Security Income (SSI)',
+    'Social Security Disability',
+    'Social Security Income',
     "Veteran's Benefits",
     'Retirement Fund (401), IRA',
+]
+INCOME_CHOICES_YEARLY = [
     'Annuities',
     'Pension Statement',
     'Checking Account Statement',
     'Savings Account Statement',
     'Mutual Fund Statement',
-    'Certificate Deposits (CD)',
+    'Certificate Deposits',
     'Stocks / Bonds',
 ]
+INCOME_CHOICES_ALL = INCOME_CHOICES_MONTHLY+INCOME_CHOICES_YEARLY
 
 
 class IncomeSource(models.Model):
     client = models.ForeignKey(Client)
     source = models.CharField(choices=zip(SOURCE_CHOICES, SOURCE_CHOICES), max_length=255)
-    category = models.CharField(choices=zip(INCOME_CHOICES, INCOME_CHOICES), max_length=255)
+    category = models.CharField(
+        choices=zip(INCOME_CHOICES_MONTHLY + INCOME_CHOICES_YEARLY,
+                    [im + ' (Monthly)' for im in INCOME_CHOICES_MONTHLY] + INCOME_CHOICES_YEARLY),
+        max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
     @property
     def annual(self):
-        # TODO: Some types are monthly, some are annual. See #12
-        return self.amount
-    
+        if self.category in INCOME_CHOICES_MONTHLY:
+            return self.amount * 12
+        else:
+            return self.amount
 
     class Meta:
         unique_together = ('client', 'source', 'category')
