@@ -140,7 +140,7 @@ class ApprovalReport(Report, name='Client Approval List', template='approvelist.
             Q(cost_share_approval__isnull=True) |
             Q(cost_share__isnull=True)
         ).filter(
-            non_kcsm=True,
+            non_kcsm=False,
         ).order_by('intake_date')
 
         return {
