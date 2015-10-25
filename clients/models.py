@@ -15,13 +15,10 @@ GENDER_CHOICES = [
 ]
 
 RACE_CHOICES = [
-    'Afro. Amer.',
-    'Aleut',
-    'Asian',
-    'Eskimo',
-    'Pac. Islander',
     'White',
-    'Other',
+    'Black',
+    'Asian/Hawaiian/Pacific Islander',
+    'American Indian/Eskimo/Aleut',
 ]
 
 LOSS_CHOICES = [
@@ -102,9 +99,12 @@ class Client(models.Model):
     emergency_phone = lfmodels.PhoneNumberField(null=True, blank=True, verbose_name='Emergency contact phone')
 
     race = models.CharField(choices=zip(RACE_CHOICES, RACE_CHOICES), max_length=255)
+    multiracial = models.BooleanField(verbose_name='Multi-Racial')
+    multiracial_white = models.BooleanField(verbose_name='White Multi-Racial')
+    multiracial_black = models.BooleanField(verbose_name='Black Multi-Racial')
+    multiracial_asian = models.BooleanField(verbose_name='Asian Multi-Racial')
+    multiracial_amind = models.BooleanField(verbose_name='American Indian Multi-Racial')
     is_hispanic = models.BooleanField(verbose_name='Is Hispanic')
-    additional_races = models.CharField(max_length=256, null=True, blank=True,
-                                        help_text='If multi-racial, list additional race(s) separated by commas')
 
     referrer = models.CharField(null=True, blank=True, max_length=256)
 

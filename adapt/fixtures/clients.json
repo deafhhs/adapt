@@ -21,7 +21,6 @@
       "audiologist_referral_date": null,
       "deliverable": true,
       "cost_share": 0,
-      "additional_races": "",
       "lives_alone": false,
       "signed_client_responsibility_fees": false,
       "phone": "473-829-1074",
@@ -53,7 +52,12 @@
       "hearing_assistance": false,
       "adaptive_equipment": true,
       "hearing_aid_assistance": false,
-      "quota_client": false
+      "quota_client": false,
+      "multiracial": false,
+      "multiracial_white": false,
+      "multiracial_black": false,
+      "multiracial_asian": false,
+      "multiracial_amind": false
     },
     "pk": 1
   },
@@ -79,7 +83,6 @@
       "audiologist_referral_date": "2015-10-24",
       "deliverable": true,
       "cost_share": 15,
-      "additional_races": "",
       "lives_alone": false,
       "signed_client_responsibility_fees": false,
       "phone": "616-777-8899",
@@ -111,7 +114,12 @@
       "hearing_assistance": false,
       "adaptive_equipment": true,
       "hearing_aid_assistance": false,
-      "quota_client": false
+      "quota_client": false,
+      "multiracial": false,
+      "multiracial_white": false,
+      "multiracial_black": false,
+      "multiracial_asian": false,
+      "multiracial_amind": false
     },
     "pk": 2
   },
@@ -137,7 +145,6 @@
       "audiologist_referral_date": "2015-10-24",
       "deliverable": true,
       "cost_share": 100,
-      "additional_races": "",
       "lives_alone": false,
       "signed_client_responsibility_fees": true,
       "phone": "555-555-5555",
@@ -164,12 +171,17 @@
       "city": "Grand Rapids",
       "is_hispanic": false,
       "emergency_phone": "",
-      "race": "Pac. Islander",
+      "race": "Asian/Hawaiian/Pacific Islander",
       "zip_code": "43212",
       "hearing_assistance": false,
       "adaptive_equipment": true,
       "hearing_aid_assistance": false,
-      "quota_client": false
+      "quota_client": false,
+      "multiracial": false,
+      "multiracial_white": false,
+      "multiracial_black": false,
+      "multiracial_asian": false,
+      "multiracial_amind": false
     },
     "pk": 3
   }
