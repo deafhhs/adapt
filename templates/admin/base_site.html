@@ -37,33 +37,43 @@ Ideally we'd just extend that file but we can't since this current file has the 
 {% block footer %}
   {{ block.super }}
   <script type="text/javascript">
-    (function($) {
-        $(document).ready(function () {
-            var income_inputs_sel = '.dynamic-incomesource_set .field-amount input';
-            function compute_income_total() {
-                var income_total = 0;
-                $(income_inputs_sel).each(function() {
-                    if (this.value) {
-                        income_total += parseFloat(this.value);
+
+    var adapt = {
+        income_level_1: {{ settings.income_level_1 }},
+        income_level_2: {{ settings.income_level_2 }}
+    };
+
+    if (typeof django !== 'undefined' && django.jQuery) {
+        (function ($) {
+            $(document).ready(function () {
+                var income_inputs_sel = '.dynamic-incomesource_set .field-amount input';
+
+                function compute_income_total() {
+                    var income_total = 0;
+                    $(income_inputs_sel).each(function () {
+                        if (this.value) {
+                            income_total += parseFloat(this.value);
+                        }
+                    });
+                    var $destination = $('.add-row:first td', $(income_inputs_sel).parents());
+                    $('.income_total', $destination).remove();  // any previous value
+                    var less_than;
+                    if (income_total < adapt.income_level_1) {
+                        less_than = '< $' + adapt.income_level_1;
+                    } else if (income_total < adapt.income_level_2) {
+                        less_than = '< $' + adapt.income_level_2;
+                    } else {
+                        less_than = 'not low income';
                     }
-                });
-                var $destination = $('.add-row:first td', $(income_inputs_sel).parents());
-                $('.income_total', $destination).remove();  // any previous value
-                var less_than;
-                if (income_total < 11770) {
-                    less_than = '< $11,770';
-                } else if (income_total < 23540) {
-                    less_than = '< $23,540';
-                } else {
-                    less_than = 'not low income';
+                    $destination.append(
+                            '<span class="income_total" style="margin-left:40%"><strong style="margin-right:3em">Total: $'
+                            + income_total + '</strong>' + less_than + '</span>');
                 }
-                $destination.append(
-                    '<span class="income_total" style="margin-left:40%"><strong style="margin-right:3em">Total: $'
-                    + income_total + '</strong>' + less_than + '</span>');
-            }
-            compute_income_total();
-            $('#incomesource_set-group').on('change', income_inputs_sel, compute_income_total);
-        });
-    })(django.jQuery);
+
+                compute_income_total();
+                $('#incomesource_set-group').on('change', income_inputs_sel, compute_income_total);
+            });
+        })(django.jQuery);
+    }
   </script>
 {% endblock %}

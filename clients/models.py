@@ -4,6 +4,8 @@ from import_export import resources
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 import localflavor.us.models as lfmodels
+from solo.models import SingletonModel
+
 
 GENDER_CHOICES = [
     'Male',
@@ -237,3 +239,16 @@ class IncomeSource(models.Model):
 
     def __str__(self):
         return '{} {} ${}'.format(self.source, self.category, self.amount)
+
+
+class Settings(SingletonModel):
+    income_level_1 = models.IntegerField()
+    income_level_2 = models.IntegerField()
+
+    def __str__(self):
+        return "Settings"
+
+    class Meta:
+        verbose_name = "Settings"
+
+

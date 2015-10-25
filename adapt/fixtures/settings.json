@@ -1,0 +1,10 @@
+[
+  {
+    "pk": 1,
+    "fields": {
+      "income_level_1": 11770,
+      "income_level_2": 23540
+    },
+    "model": "clients.settings"
+  }
+]

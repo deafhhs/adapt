@@ -3,7 +3,7 @@ from django.test import TestCase
 
 class TestPages(TestCase):
 
-    fixtures = ['auth', 'audiologists', 'clients', 'providers']
+    fixtures = ['auth', 'audiologists', 'clients', 'providers', 'settings']
 
     def setUp(self):
         assert self.client.login(username='admin', password='admin')
@@ -80,3 +80,9 @@ class TestPages(TestCase):
         self.client.logout()
         resp = self.client.get('/reports/', secure=True)
         self.assertEqual(resp.status_code, 302)
+
+
+    def test_settings(self):
+        resp = self.client.get('/admin/clients/settings/', secure=True)
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'Income')

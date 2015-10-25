@@ -7,3 +7,4 @@ dj-static
 django-import-export
 django-localflavor
 requests
+django-solo

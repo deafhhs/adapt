@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models.fields import CharField, TextField
 from django.forms import Textarea, ModelForm
 from import_export.admin import ImportExportModelAdmin
-
+from solo.admin import SingletonModelAdmin
 
 from .models import Audiologist
 from .models import AudiologistResource
@@ -15,6 +15,7 @@ from .models import MeetingLogResource
 from .models import Provider
 from .models import ProviderResource
 from .models import IncomeSource
+from .models import Settings
 
 
 standard_textarea = Textarea(attrs={'rows': 3,
@@ -152,3 +153,4 @@ admin.site.register(Audiologist, AudiologistAdmin)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Provider, ProviderAdmin)
 admin.site.register(MeetingLog, MeetingLogAdmin)
+admin.site.register(Settings, SingletonModelAdmin)
