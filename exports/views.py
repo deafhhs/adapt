@@ -249,9 +249,9 @@ def export_phone_format(phonenumber):
 @login_required
 def registrations(request):
     # Export of all pending registrations as CSV
-    response = HttpResponse(content_type='text/plain')
-    #response['Content-Disposition'] = 'attachment; filename="' + \
-    #                                  generate_standard_filename("REG") + '"'
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="' + \
+                                      generate_standard_filename("REG") + '"'
     reg_clients = Client.objects.all().filter(quota_client=False)\
                                       .filter(Q(napis_id__isnull=True) | Q(napis_id__exact=''))\
                                       .filter(county__exact='41')
