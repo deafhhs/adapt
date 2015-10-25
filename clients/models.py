@@ -87,6 +87,7 @@ class Client(models.Model):
     zip_code = lfmodels.USZipCodeField()
     deliverable = models.BooleanField(default=True, verbose_name='Can accept mail')
 
+
     email = models.EmailField(null=True, blank=True)
     phone = lfmodels.PhoneNumberField(null=True, blank=True, verbose_name='Phone number')
 
@@ -129,6 +130,7 @@ class Client(models.Model):
 
     provider = models.ForeignKey(Provider, blank=True, null=True)
     quota_client = models.BooleanField()
+    non_kcsm = models.BooleanField(verbose_name="Non-KCSM") #TODO: Migration needs to handle this, NullBooleanField probably wrong
     update_meeting = models.DateField(blank=True, null=True, verbose_name='Update meeting date')
     audient_id = models.CharField(blank=True, null=True, max_length=16, verbose_name='Audient ID')
     provider_auth_requested = models.DateField(blank=True, null=True)
