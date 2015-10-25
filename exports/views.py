@@ -4,6 +4,7 @@ from datetime import datetime
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
+from django.db.models import Q
 
 from clients.models import Settings as AdaptSettings
 from clients.models import Client
@@ -241,8 +242,8 @@ def registrations(request):
     response['Content-Disposition'] = 'attachment; filename="' + \
                                       generate_standard_filename("REG") + '"'
     reg_clients = Client.objects.all().filter(quota_client=False)\
-                                      .filter(napis_id__isnull=True)\
-                                      .filter(date_of_death__isnull=True) # TODO add county filter
+                                      .filter(Q(napis_id__isnull=True) | Q(napis_id__exact=''))\
+                                      .filter(county__exact='41')
     data = []
     for client in reg_clients:
         data.append(set_registration_row(client))
