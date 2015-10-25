@@ -3,6 +3,7 @@ import datetime
 
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
 
 
 def set_registration_row():
@@ -242,3 +243,15 @@ def units(request):
         writer.writerow([field[1] for field in row])
 
     return response
+
+class IndexView(TemplateView):
+    def get_context_data(self, **kwargs):
+        from django.contrib.admin import site
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'site_title': site.site_title,
+            'site_header': site.site_header,
+            'site_url': site.site_url,
+            'has_permission': True,
+        })
+        return context

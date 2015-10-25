@@ -1,0 +1,26 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% load admin_static %}
+
+{% block title %}Exports {{ block.super }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">Home</a>
+&rsaquo; Exports
+</div>
+{% endblock %}
+
+{% block content %}
+<h1>Reports</h1>
+
+<section>
+<h2><a href="registrations">KCSM Registrations</a></h2>
+<p>lorem ipsum ui op</p>
+</section>
+
+<section>
+<h2><a href="units">KCSM Units</a></h2>
+<p>lorem ipsum ui op</p>
+</section>
+{% endblock %}
