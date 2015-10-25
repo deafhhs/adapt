@@ -104,15 +104,82 @@ class MeetingLogInlineAdmin(admin.TabularInline):
     extra = 1
 
 
+class DateYesNoFilter(SimpleListFilter):
+    def lookups(self, request, model_admin):
+        return (
+            ('y', 'Yes'),
+            ('n', 'No'),
+        )
+
+    def queryset(self, request, queryset):
+        query = {}
+        if self.value() == 'y':
+            query = {self.field_name + '__isnull': False}
+        elif self.value() == 'n':
+            query = {self.field_name + '__isnull': True}
+        return queryset.filter(**query)
+
+
+class DeceasedFilter(DateYesNoFilter):
+    title = 'Deceased'
+    parameter_name = 'deceased'
+    field_name = 'date_of_death'
+
+
+class CostShareApprovedFilter(DateYesNoFilter):
+    title = 'Cost Share Approved'
+    parameter_name = 'cost_share_approved'
+    field_name = 'cost_share_approval'
+
+
+class UpdateMeetingFilter(DateYesNoFilter):
+    title = 'Had Update Meeting'
+    parameter_name = 'update_meeting'
+    field_name = 'update_meeting'
+
+
+class ProviderAuthReqFilter(DateYesNoFilter):
+    title = 'Provider Auth Requested'
+    parameter_name = 'provider_auth_requested'
+    field_name = 'provider_auth_requested'
+
+
+class ProviderAuthRecvFilter(DateYesNoFilter):
+    title = 'Provider Auth Rcvd'
+    parameter_name = 'provider_auth_received'
+    field_name = 'provider_auth_received'
+
+
+class AudiologistReferredFilter(DateYesNoFilter):
+    title = 'Audiologist Referred'
+    parameter_name = 'audiologist_referral_date'
+    field_name = 'audiologist_referral_date'
+
+
+class AudiologistApptFilter(DateYesNoFilter):
+    title = 'Audiologist Appt Set'
+    parameter_name = 'audiologist_appointment_date'
+    field_name = 'audiologist_appointment_date'
+
+
+class AudiologistInvoicedFilter(DateYesNoFilter):
+    title = 'Audiologist Invoiced'
+    parameter_name = 'audiologist_invoiced_date'
+    field_name = 'audiologist_invoiced_date'
+
+
 class ClientAdmin(ImportExportModelAdmin):
     resource_class = ClientResource
-    list_display = ('last_name', 'first_name', 'intake_date', 'hearing_loss', 'audiologist', 'cost_share', 'cost_share_approval')
     list_display = ('last_name', 'first_name', 'intake_date', 'last_updated', 'hearing_loss', 'audiologist', 'cost_share', 'cost_share_approval')
     list_display_links = ('last_name', 'first_name',)
-    list_filter = ('provider', 'audiologist', 'family_size', 'deliverable', 'hearing_loss',
+    list_filter = ('provider', 'audiologist', 'family_size', 'hearing_loss',
+                   DeceasedFilter, CostShareApprovedFilter, UpdateMeetingFilter, 'update_meeting',
+                   ProviderAuthReqFilter, ProviderAuthRecvFilter,
+                   AudiologistReferredFilter, AudiologistApptFilter, AudiologistInvoicedFilter,
                    'equipment_requested', 'adaptive_equipment', 'hearing_aid_assistance',
-                   'quota_client', 'non_kcsm',
-                   'intake_staff', 'data_entry_staff', 'last_updated')
+                   'last_updated',
+                   'quota_client', 'deliverable', 'non_kcsm',
+                   'intake_staff', 'data_entry_staff')
     ordering = ('-intake_date',)
     date_hierarchy = 'intake_date'
     search_fields = [f.name for f in Client._meta.local_fields if isinstance(f, (CharField, TextField))]
