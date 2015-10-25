@@ -1,0 +1,25 @@
+{% extends "reports/report.html" %}
+
+{% block report %}
+<p>Note: The intake date is used to select clients.</p>
+
+<dl>
+    <dt>Total Clients:</dt>
+    <dd>{{total}}</dd>
+
+    <dt>Income:</dt>
+    <dd>{{income}}
+    <dd>Avg: {{ income.avg }} | 1st Quartile: {{ income.q1 }} | Q2: {{income.q2 }} | 3rd Quartile: {{ income.q3 }}</dd>
+
+    <dt>Gender:</dt>
+    <dd>
+    {% for g, c in gender.items %}
+        {{g}}: {{c}} {% if not forloop.last %}|{% endif %}
+    {% endfor %}
+    </dd>
+
+    <dt>Hearing Aids:</dt>
+    <dd>Left: {{aid.l}} | Right: {{aid.r}}
+    </dd>
+</dl>
+{% endblock %}

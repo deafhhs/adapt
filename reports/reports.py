@@ -53,6 +53,9 @@ import datetime
 import calendar
 from clients.models import Client, Audiologist
 from django.db.models import Q
+import math
+import statistics
+import collections
 
 class AudiologistReport(Report, name='Audiologist List', template='audiologist.html'):
     year = forms.IntegerField(label='Year', min_value=2000, max_value=2050, required=False)
@@ -138,4 +141,79 @@ class ApprovalReport(Report, name='Client Approval List', template='approvelist.
 
         return {
             'clients': clients
+        }
+
+class StatsHelper(list):
+    """
+    Really cheats by just sorting the data and picking indexes at 25%, 50%, and 75%
+    """
+    def qindexes(self):
+        l = len(self)
+        q2 = l // 2
+        q1 = q2 // 2
+        q3 = (len(self) - q2) // 2
+        return q1, q3
+
+    def q1(self):
+        i, _ = self.qindexes()
+        return sorted(self)[i]
+
+    def q2(self):
+        return statistics.median(self)
+
+    def q3(self):
+        _, i = self.qindexes()
+        return sorted(self)[i]
+
+    def avg(self):
+        return sum(self) / len(self)
+
+class NiftyReport(Report, name='Nifty Report', template='nifty.html'):
+    year = forms.IntegerField(label='Year', min_value=2000, max_value=2050, required=False)
+    month = forms.IntegerField(label='Month', min_value=1, max_value=12, required=False)
+
+    def clean(self):
+        data = super().clean()
+        if data.get('month'):
+            if not data.get('year'):
+                raise ValidationError("If month is given, year must also be given")
+        return data
+
+    def report(self):
+        today = datetime.date.today()
+        year = self.get_field('year')
+        month = self.get_field('month')
+
+        clients = Client.objects.all()
+        if year:
+            clients = clients.filter(intake_date__year=year)
+            if month:
+                clients = clients.filter(intake_date__month=month)
+
+        income = StatsHelper()
+        gender = collections.Counter()
+        race = collections.Counter()
+        aid = collections.Counter()
+        invoice = StatsHelper()
+
+        for c in clients:
+            income.append(c.total_income)
+            gender[c.gender] += 1
+            race[c.race] += 1
+            if c.aids_requested_left:
+                aid['l'] += 1
+            if c.aids_requested_right:
+                aid['r'] += 1
+            if c.audiologist_invoiced_amount:
+                invoice.append(c.audiologist_invoiced_amount)
+
+        return {
+            'year': year,
+            'month': calendar.month_name[month] if month else None,
+            'total': len(clients),
+            'income': income,
+            'gender': dict(gender),
+            'race': race,
+            'aid': aid,
+            'invoice': invoice,
         }

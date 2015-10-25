@@ -156,7 +156,7 @@ class Client(models.Model):
 
     @property
     def total_income(self):
-        return self.incomesource_set.all().aggregate(models.Sum('amount'))['amount__sum']
+        return sum(inc.annual for inc in self.incomesource_set.all())
     
 
 
