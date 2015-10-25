@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.timezone import now
 from import_export import resources
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator
 from django.core.validators import MinValueValidator
 import localflavor.us.models as lfmodels
 from solo.models import SingletonModel
@@ -25,7 +26,7 @@ RACE_CHOICES = [
 
 LOSS_CHOICES = [
     'Mild',
-    'Medium',
+    'Moderate',
     'Severe',
     'Profound'
 ]
@@ -79,14 +80,14 @@ class Client(models.Model):
     date_of_death = models.DateField(null=True, blank=True)
 
     intake_date = models.DateField(default=now)
-    renewal = models.DateField(blank=True, null=True)
-    intake_staff = models.ForeignKey(User, blank=True, null=True, related_name='+')
-    data_entry_staff = models.ForeignKey(User, blank=True, null=True, related_name='+')
+    renewal = models.BooleanField(default=False)
+    intake_staff = models.ForeignKey(User, related_name='+')
+    data_entry_staff = models.ForeignKey(User, related_name='+')
 
-    address = models.TextField(null=True, blank=True)
-    city = models.CharField(null=True, blank=True, max_length=64)
-    state = lfmodels.USPostalCodeField(null=True, blank=True, default='MI')
-    zip_code = lfmodels.USZipCodeField(null=True, blank=True)
+    address = models.TextField()
+    city = models.CharField(max_length=64)
+    state = lfmodels.USPostalCodeField(default='MI')
+    zip_code = lfmodels.USZipCodeField()
     deliverable = models.BooleanField(default=True)
 
     email = models.EmailField(null=True, blank=True)
@@ -113,18 +114,23 @@ class Client(models.Model):
     aids_requested_right = models.BooleanField()
     equipment_requested = models.BooleanField()
 
+    ''' SERVICES PROVIDED '''
+    hearing_assistance = models.BooleanField()
+    adaptive_equipment = models.BooleanField()
+    hearing_aid_assistance = models.BooleanField()
+
     cost_share_approval = models.DateField(blank=True, null=True)
-    cost_share = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True,
-                                     validators=[MinValueValidator(0)])
+    cost_share = models.PositiveIntegerField(blank=True, null=True,
+                                     validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     equipment_borrowed = models.TextField(blank=True)
 
     provider = models.ForeignKey(Provider, blank=True, null=True)
-    audient_id = models.CharField(blank=True, null=True, max_length=16)
-    provider_auth_sent = models.DateField(blank=True, null=True)
-    provider_auth_recv = models.DateField(blank=True, null=True)
-
+    quota_client = models.BooleanField()
     update_meeting = models.DateField(blank=True, null=True)
+    audient_id = models.CharField(blank=True, null=True, max_length=16)
+    provider_auth_requested = models.DateField(blank=True, null=True)
+    provider_auth_received = models.DateField(blank=True, null=True)
 
     notes = models.TextField(blank=True)
 
@@ -143,7 +149,7 @@ class Client(models.Model):
                                                       validators=[MinValueValidator(0)])
 
     def __str__(self):
-        return '{} {}'.format(self.first_name, self.last_name)
+        return '{}, {}'.format(self.last_name, self.first_name)
 
     def get_absolute_url(self):
         return "/admin/clients/client/{}/".format(self.id)

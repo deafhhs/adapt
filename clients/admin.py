@@ -106,8 +106,8 @@ class MeetingLogInlineAdmin(admin.TabularInline):
 
 class ClientAdmin(ImportExportModelAdmin):
     resource_class = ClientResource
-    list_display = ('first_name', 'last_name', 'intake_date', 'hearing_loss', 'audiologist')  # TODO: cost share
-    list_display_links = ('first_name', 'last_name',)
+    list_display = ('last_name', 'first_name', 'intake_date', 'hearing_loss', 'audiologist')  # TODO: cost share
+    list_display_links = ('last_name', 'first_name',)
     list_filter = ('intake_date', 'provider', 'audiologist')  # TODO: better date filter, copy from Thrive
     ordering = ('-intake_date',)
     date_hierarchy = 'intake_date'
