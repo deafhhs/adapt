@@ -31,6 +31,26 @@ Ideally we'd just extend that file but we can't since this current file has the 
         .object-tools a.import_link {
             display: none;
         }
+        @media print {
+            #reports_link,
+            #user-tools,
+            .breadcrumbs,
+            #content > h1,
+            .object-tools,
+            .datetimeshortcuts,
+            .related-widget-wrapper-link,
+            .add-row a,
+            .submit-row {
+                display: none;
+            }
+            .module,
+            .inline-group,
+            input,
+            select,
+            textarea {
+                border: 0 !important;
+            }
+        }
     </style>
 {% endblock %}
 
