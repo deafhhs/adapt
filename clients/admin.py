@@ -255,7 +255,7 @@ class ClientAdmin(ImportExportModelAdmin):
 
 class MeetingLogAdmin(ImportExportModelAdmin):
     resource_class = MeetingLogResource
-    list_display = ('client', 'contact_date', 'consultation_time', 'paperwork_time', 'results', 'user')
+    list_display = ('client', 'contact_date', 'consultation_time', 'paperwork_time', 'units', 'results', 'user')
     list_display_links = ('contact_date',)
     list_filter = ('client', 'contact_date', 'user')
     ordering = ('-contact_date',)
@@ -265,6 +265,9 @@ class MeetingLogAdmin(ImportExportModelAdmin):
             'widget': standard_textarea,
         },
     }
+    def units(self, obj):
+        return (obj.consultation_time + obj.paperwork_time) / 60
+
 
 class ProviderAdmin(ImportExportModelAdmin):
     ordering = ('name',)
