@@ -40,7 +40,11 @@ Ideally we'd just extend that file but we can't since this current file has the 
             .datetimeshortcuts,
             .related-widget-wrapper-link,
             .add-row a,
-            .submit-row {
+            .submit-row,
+            #toolbar,
+            #changelist-filter,
+            .xfull,
+            .paginator {
                 display: none;
             }
             .module,
@@ -49,6 +53,9 @@ Ideally we'd just extend that file but we can't since this current file has the 
             select,
             textarea {
                 border: 0 !important;
+            }
+            form#changelist-form div.results {
+                margin-right: 0px !important;
             }
         }
     </style>
