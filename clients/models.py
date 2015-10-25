@@ -270,10 +270,10 @@ class IncomeSource(models.Model):
 class Settings(SingletonModel):
     income_level_1 = models.IntegerField()
     income_level_2 = models.IntegerField()
-    AAA_VendorID = models.IntegerField()
-    AAA_VendorSite = models.IntegerField()
-    AAA_Region = models.IntegerField()
-    AAA_County = models.IntegerField()
+    AAA_VendorID = models.CharField(max_length=4)
+    AAA_VendorSite = models.CharField(max_length=4)
+    AAA_Region = models.CharField(max_length=4)
+    AAA_County = models.CharField(max_length=4)
 
     def __str__(self):
         return "Settings"

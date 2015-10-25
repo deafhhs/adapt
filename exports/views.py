@@ -1,42 +1,50 @@
 import csv
-import datetime
+from datetime import datetime
 
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
+from clients.models import Settings as AdaptSettings
+from clients.models import Client
 
-def set_registration_row():
+
+def set_registration_row(reg_client):
+    adapt_settings = AdaptSettings.objects.first()
+    is_below_poverty = True if reg_client.total_income < \
+                               adapt_settings.income_level_1 else False
+    is_below_low_income = True if reg_client.total_income < \
+                                  adapt_settings.income_level_2 else False
     fields = [
-        ('month', "TODO",), # TODO (July 2015)
+        ('month', datetime.now().strftime('%B %Y'),),
         ('ssn', '',),
-        ('vendorid', "TODO",), # TODO (singleton)
-        ('region', "TODO",), # TODO (singleton)
-        ('intake_date', "TODO",), # TODO (client)
-        ('client_last_name', "TODO",), # TODO (client)
-        ('first_name', "TODO",), # TODO (client)
+        ('vendorid', adapt_settings.AAA_VendorID,),
+        ('region', adapt_settings.AAA_Region,),
+        ('intake_date', reg_client.intake_date.strftime('%m/%d/%Y'),),
+        ('client_last_name', reg_client.last_name,),
+        ('first_name', reg_client.first_name,),
         ('mid_init', '',),
-        ('client_address', "TODO",), # TODO (client)
-        ('city', "TODO",), # TODO (client)
-        ('state', "TODO",), # TODO (client)
-        ('zip_code', "TODO",), # TODO (client)
-        ('county', "TODO",), # TODO (singleton)
+        ('client_address', reg_client.address,),
+        ('city', reg_client.city,),
+        ('state', reg_client.state,),
+        ('zip_code', reg_client.zip_code,),
+        ('county', adapt_settings.AAA_County,),
         ('township', '',),
-        ('phone', "TODO",), # TODO (client)
-        ('date_of_birth', "TODO",), # TODO (client)
-        ('gender', "TODO",), # TODO (client)
-        ('lives_alone', "TODO",), # TODO (client)
-        ('income_status', "TODO",), # TODO (client)
-        ('below_poverty', "TODO",), # TODO (client)
-        ('race', "TODO",), # TODO (client)
-        ('multi_racial', "TODO",), # TODO (client)
-        ('mrwhite', "TODO",), # TODO (client)
-        ('mrblack', "TODO",), # TODO (client)
-        ('mrasian', "TODO",), # TODO (client)
-        ('mramind', "TODO",), # TODO (client)
-        ('hispanic', "TODO",), # TODO (client)
-        ('high_nutritional_risk', "TODO",), # TODO (client)
-        ('veteran', "TODO",), # TODO (client)
+        ('phone', export_phone_format(reg_client.phone),),
+        ('date_of_birth', reg_client.date_of_birth.strftime('%m/%d/%Y'),),
+        ('gender', reg_client.gender,),
+        ('lives_alone', bool_to_yes_no(reg_client.lives_alone),),
+        ('income_status', bool_to_yes_no(is_below_low_income),),
+        ('below_poverty', bool_to_yes_no(is_below_poverty),),
+        ('race', reg_client.race,),
+        ('multi_racial', bool_to_yes_no(reg_client.multiracial),),
+        ('mrwhite', bool_to_yes_no(reg_client.multiracial_white),),
+        ('mrblack', bool_to_yes_no(reg_client.multiracial_black),),
+        ('mrasian', bool_to_yes_no(reg_client.multiracial_asian),),
+        ('mramind', bool_to_yes_no(reg_client.multiracial_amind),),
+        ('hispanic', bool_to_yes_no(reg_client.is_hispanic),),
+        ('high_nutritional_risk', "No",),
+        ('veteran', bool_to_yes_no(reg_client.is_veteran),),
         ('arthritis', '',),
         ('cancer', '',),
         ('diabetes', '',),
@@ -92,9 +100,9 @@ def set_registration_row():
         ('guardianship', 'No',),
         ('health_education', 'No',),
         ('health_education_community', 'No',),
-        ('hearingaidassist', "TODO",), # TODO (client)
+        ('hearingaidassist', bool_to_yes_no(reg_client.hearing_aid_assistance),),
         ('hearing_services___group', 'No',),
-        ('hearing_services___individual', "TODO",), # TODO (client)
+        ('hearing_services___individual', bool_to_yes_no(reg_client.hearing_assistance),),
         ('home_chore', 'No',),
         ('home_financial_services', 'No',),
         ('home_modifications_assmt', 'No',),
@@ -125,7 +133,7 @@ def set_registration_row():
         ('weatherization', 'No',),
         ('ppc', 'No',),
         ('phone_reassurance', 'No',),
-        ('adaptive_equipment', 'TODO',), # TODO (client)
+        ('adaptive_equipment', bool_to_yes_no(reg_client.adaptive_equipment),),
         ('cglastname', '',),
         ('cgfirstname', '',),
         ('cgss', '',),
@@ -211,9 +219,19 @@ def generate_standard_filename(export_type):
     """
     funding_source = "KCSM"
     provider_name = "DHHS"
-    month_and_year = datetime.datetime.now().strftime('%b%Y')
+    month_and_year = datetime.now().strftime('%b%Y')
     return '-'.join([funding_source, provider_name,
                     export_type, month_and_year]) + '.txt'
+
+
+def bool_to_yes_no(val):
+    return "Yes" if val else "No"
+
+def export_phone_format(phonenumber):
+    if phonenumber:
+        parts = phonenumber.split('-')
+        return '('+parts[0]+')'+parts[1]+'-'+parts[2]
+    return ''
 
 
 @login_required
@@ -222,8 +240,12 @@ def registrations(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="' + \
                                       generate_standard_filename("REG") + '"'
-
-    data = [set_registration_row(),]
+    reg_clients = Client.objects.all().filter(quota_client=False)\
+                                      .filter(napis_id__isnull=True)\
+                                      .filter(date_of_death__isnull=True) # TODO add county filter
+    data = []
+    for client in reg_clients:
+        data.append(set_registration_row(client))
     writer = csv.writer(response)
     for row in data:
         writer.writerow([field[1] for field in row])
