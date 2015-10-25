@@ -58,7 +58,8 @@
       "multiracial_black": false,
       "multiracial_asian": false,
       "multiracial_amind": false,
-      "non_kcsm": false
+      "non_kcsm": false,
+      "last_updated": "2015-10-01"
     },
     "pk": 1
   },
@@ -121,7 +122,8 @@
       "multiracial_black": false,
       "multiracial_asian": false,
       "multiracial_amind": false,
-      "non_kcsm": false
+      "non_kcsm": false,
+      "last_updated": "2015-10-10"
     },
     "pk": 2
   },
@@ -184,7 +186,8 @@
       "multiracial_black": false,
       "multiracial_asian": false,
       "multiracial_amind": false,
-      "non_kcsm": false
+      "non_kcsm": false,
+      "last_updated": "2015-09-22"
     },
     "pk": 3
   }
