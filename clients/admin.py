@@ -106,9 +106,12 @@ class MeetingLogInlineAdmin(admin.TabularInline):
 
 class ClientAdmin(ImportExportModelAdmin):
     resource_class = ClientResource
-    list_display = ('last_name', 'first_name', 'intake_date', 'hearing_loss', 'audiologist')  # TODO: cost share
+    list_display = ('last_name', 'first_name', 'intake_date', 'hearing_loss', 'audiologist', 'cost_share', 'cost_share_approval')
     list_display_links = ('last_name', 'first_name',)
-    list_filter = ('intake_date', 'provider', 'audiologist')  # TODO: better date filter, copy from Thrive
+    list_filter = ('provider', 'audiologist', 'family_size', 'deliverable', 'hearing_loss',
+                   'equipment_requested', 'adaptive_equipment', 'hearing_aid_assistance',
+                   'quota_client', 'non_kcsm',
+                   'intake_staff', 'data_entry_staff')
     ordering = ('-intake_date',)
     date_hierarchy = 'intake_date'
     search_fields = [f.name for f in Client._meta.local_fields if isinstance(f, (CharField, TextField))]
