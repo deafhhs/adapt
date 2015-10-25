@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'adapt',
     'clients',
     'reports',
+    'axes',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -53,6 +54,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'axes.middleware.FailedLoginMiddleware',
 )
 
 ROOT_URLCONF = 'adapt.urls'
@@ -149,3 +151,8 @@ else:
     EMAIL_PORT = int(os.getenv('EMAIL_PORT') or 0)
     EMAIL_HOST_USER = os.getenv('EMAIL_USER')
     EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
+
+AXES_PROTECTED_LOGINS = LOGIN_URL
+AXES_COOLOFF_TIME = 10/60
+AXES_LOCKOUT_TEMPLATE = "admin/locked.html"
+AXES_LOCKOUT_URL = "/admin/locked/"

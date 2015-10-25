@@ -8,3 +8,4 @@ django-import-export
 django-localflavor
 requests
 django-solo
+django-axes
