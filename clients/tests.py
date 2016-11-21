@@ -29,7 +29,7 @@ class TestPages(TestCase):
         self.assertContains(resp, 'First name')
 
     def test_client_1(self):
-        resp = self.client.get('/admin/clients/client/1/', secure=True)
+        resp = self.client.get('/admin/clients/client/1/change/', secure=True)
         self.assertEqual(resp.status_code, 200)
 
 
@@ -43,7 +43,7 @@ class TestPages(TestCase):
         self.assertEqual(resp.status_code, 200)
 
     def test_provider_3(self):
-        resp = self.client.get('/admin/clients/provider/3/', secure=True)
+        resp = self.client.get('/admin/clients/provider/3/change/', secure=True)
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Meijer')
 
@@ -58,7 +58,7 @@ class TestPages(TestCase):
         self.assertEqual(resp.status_code, 200)
 
     def test_aud_1(self):
-        resp = self.client.get('/admin/clients/audiologist/1/', secure=True)
+        resp = self.client.get('/admin/clients/audiologist/1/change/', secure=True)
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'McDonalds')
 

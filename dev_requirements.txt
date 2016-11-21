@@ -1,4 +1,4 @@
-Django==1.8.5
+Django==1.10.3
 
 # copied from django-toolbelt but omitting psycopg2
 gunicorn
