@@ -8,5 +8,5 @@ django-import-export
 django-localflavor
 requests
 django-solo
-django-axes
+django-axes<2
 pytz
