@@ -157,6 +157,24 @@ class ProviderResource(resources.ModelResource):
         export_order = ('name',)
 
 
+class Grantor(models.Model):
+    name = models.CharField(max_length=256)
+    notes = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return "/admin/clients/grantor/{}/".format(self.id)
+
+
+class GrantorResource(resources.ModelResource):
+    class Meta:
+        model = Grantor
+        exclude = ('id',)
+        export_order = ('name',)
+
+
 class Client(models.Model):
     napis_id = models.CharField(max_length=11, null=True, blank=True, verbose_name="KCSM ID")
     first_name = models.CharField(max_length=64)
@@ -220,6 +238,7 @@ class Client(models.Model):
     provider = models.ForeignKey(Provider, blank=True, null=True)
     quota_client = models.BooleanField()
     non_kcsm = models.BooleanField(verbose_name="Non-KCSM")
+    grantors = models.ManyToManyField(Grantor, blank=True)
     update_meeting = models.DateField(blank=True, null=True, verbose_name='Update meeting date')
     audient_id = models.CharField(blank=True, null=True, max_length=16, verbose_name='Audient ID')
     provider_auth_requested = models.DateField(blank=True, null=True)
@@ -251,6 +270,9 @@ class Client(models.Model):
     @property
     def total_income(self):
         return sum(inc.annual for inc in self.incomesource_set.all())
+
+    def client_grantors(self):
+        return ', '.join([str(g) for g in self.grantors.all()])
     
 
 

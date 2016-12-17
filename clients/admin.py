@@ -16,6 +16,8 @@ from .models import Provider
 from .models import ProviderResource
 from .models import IncomeSource
 from .models import Settings
+from .models import Grantor
+from .models import GrantorResource
 
 
 standard_textarea = Textarea(attrs={'rows': 3,
@@ -170,9 +172,9 @@ class AudiologistInvoicedFilter(DateYesNoFilter):
 
 class ClientAdmin(ImportExportModelAdmin):
     resource_class = ClientResource
-    list_display = ('last_name', 'first_name', 'intake_date', 'last_updated', 'hearing_loss', 'audiologist', 'cost_share', 'cost_share_approval')
+    list_display = ('last_name', 'first_name', 'intake_date', 'last_updated', 'hearing_loss', 'audiologist', 'client_grantors', 'cost_share', 'cost_share_approval')
     list_display_links = ('last_name', 'first_name',)
-    list_filter = ('provider', 'audiologist', 'family_size', 'hearing_loss',
+    list_filter = ('provider', 'audiologist', 'grantors', 'family_size', 'hearing_loss',
                    DeceasedFilter, CostShareApprovedFilter, UpdateMeetingFilter, 'update_meeting',
                    ProviderAuthReqFilter, ProviderAuthRecvFilter,
                    AudiologistReferredFilter, AudiologistApptFilter, AudiologistInvoicedFilter,
@@ -241,7 +243,7 @@ class ClientAdmin(ImportExportModelAdmin):
                 'intake_date', 'intake_staff', 'data_entry_staff', 'last_updated', 'referrer',
                 'update_meeting',
                 'cost_share_approval', 'cost_share',
-                'quota_client', 'non_kcsm',
+                'quota_client', 'non_kcsm', 'grantors',
                 'provider', 'audient_id', 'provider_auth_requested', 'provider_auth_received',
             )
         }),
@@ -279,6 +281,16 @@ class ProviderAdmin(ImportExportModelAdmin):
     }
 
 
+class GrantorAdmin(ImportExportModelAdmin):
+    ordering = ('name',)
+    resource_class = GrantorResource
+    formfield_overrides = {
+        models.TextField: {
+            'widget': standard_textarea,
+        },
+    }
+
+
 admin.site.disable_action('delete_selected')
 
 admin.site.site_header = 'Deaf & Hard of Hearing Services - ADAPT'
@@ -289,5 +301,6 @@ admin.site.index_title = ''
 admin.site.register(Audiologist, AudiologistAdmin)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Provider, ProviderAdmin)
+admin.site.register(Grantor, GrantorAdmin)
 admin.site.register(MeetingLog, MeetingLogAdmin)
 admin.site.register(Settings, SingletonModelAdmin)
