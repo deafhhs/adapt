@@ -312,10 +312,10 @@ INCOME_CHOICES_MONTHLY = [
     'Social Security Income',
     "Veteran's Benefits",
     'Retirement Fund (401), IRA',
+    'Pension Statement',
 ]
 INCOME_CHOICES_YEARLY = [
     'Annuities',
-    'Pension Statement',
     'Checking Account Statement',
     'Savings Account Statement',
     'Mutual Fund Statement',
