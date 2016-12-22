@@ -3,7 +3,7 @@ from django.test import TestCase
 
 class TestPages(TestCase):
 
-    fixtures = ['auth', 'audiologists', 'clients', 'providers', 'settings']
+    fixtures = ['auth', 'audiologists', 'clients', 'providers', 'grantors', 'settings']
 
     def setUp(self):
         assert self.client.login(username='admin', password='admin')
